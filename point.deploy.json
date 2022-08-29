@@ -1,0 +1,33 @@
+{
+    "version": 0.1,
+    "target": "tube.point",
+    "keyvalue": {
+      "example0": {
+        "contract_send": "TubePoint.addExample(contents)",
+        "storage[contents]": {
+          "blob": "Point Network with React Bootstrap is awesome!",
+          "type": "text/plain"
+        }
+      },
+      "example1": {
+        "contract_send": "TubePoint.addExample(contents)",
+        "storage[contents]": {
+          "blob": "Please try Point Social if you have not already.",
+          "type": "text/plain"
+        }
+      },
+      "example2": {
+        "contract_send": "TubePoint.addExample(contents)",
+        "storage[contents]": {
+          "blob": "Another example of contents from Point Network.",
+          "type": "text/plain"
+        }
+      }
+    },
+    "contracts": [
+      "TubePoint"
+    ],
+    "upgradable": true,
+    "pointSDKVersion": "0.0.10" ,
+    "pointNodeVersion": "0.1.78"
+  }
