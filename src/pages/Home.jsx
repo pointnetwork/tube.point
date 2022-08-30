@@ -62,7 +62,7 @@ export default function Home() {
   return (
     <>
       <Container className="p-3">
-        <h1 className="header">Welcome to the Point Network Template App!</h1>
+        <h1 className="header">Welcome to the Tube point</h1>
         <Wallet walletAddress={walletAddress} />
         <p>Current version of Point SDK: {currentVersionSDK}. Required version of Point SDK: {requiredPointSDKVersion}.</p>
         <p>Current version of Point Node: {currentPointNodeVersion}. Required version of Point Node: {requiredPointNodeVersion}.</p>

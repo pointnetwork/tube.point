@@ -5,7 +5,7 @@ export default function Examples() {
   return (
     <>
         <Container className="p-3">
-            <h1 className="header">Example React-Bootstrap Components</h1>
+            <h1 className="header">Tube point</h1>
             <ExampleToast>
                 We now have Toasts
                 <span role="img" aria-label="tada">
