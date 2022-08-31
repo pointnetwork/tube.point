@@ -1,0 +1,9 @@
+.header-navbar{color: bisque;}
+.header-navbar .header-btn-group a{margin: 0 10px; text-decoration: none; padding: 9px 20px; background-color: #fff; width: 120px; color: #000; border: 1px solid #fff; transition:  all 0.3s; border-radius: 8px; overflow: hidden; font-size: 16px;}
+.header-navbar .header-btn-group a:hover{background-color: transparent; color: #fff;}
+.header-navbar .header-btn-group a:first-child{margin-left: 0;}
+.header-navbar .header-btn-group a:last-child{margin-right: 0;}
+
+
+
+

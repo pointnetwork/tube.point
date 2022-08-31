@@ -1,0 +1,7 @@
+.preview-page .upload-btn-group{text-align: start;}
+.title-input textarea{height: 90px !important; resize: none;}
+.description-input textarea{height: 150px !important; resize: none;}
+.description-input{margin-bottom: 50px;}
+.preview-page .video-card{width: 80%; margin-left: auto;}
+textarea:focus{box-shadow: none !important; border-color: #414346 !important;}
+input:focus{box-shadow: none !important; border-color: #414346 !important;}

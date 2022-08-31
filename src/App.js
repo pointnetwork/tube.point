@@ -3,8 +3,10 @@ import { Route } from 'wouter'
 import Header from './components/Header';
 import Footer from "./components/Footer";
 import Home from './pages/Home'
-import Examples from './pages/Examples'
+import Examples from './pages/MyVideos'
 import Contracts from './pages/Contracts'
+import Upload from './pages/Upload';
+import Preview from './pages/prieview';
 
 const Main = () => {
     return (
@@ -13,11 +15,17 @@ const Main = () => {
                 <Route path='/'>
                     <Home/>
                 </Route>
-                <Route path='/examples'>
+                <Route path='/my-videos'>
                     <Examples/>
+                </Route>
+                <Route path='/upload'>
+                    <Upload/>
                 </Route>
                 <Route path='/contracts'>
                     <Contracts/>
+                </Route>
+                <Route path='/preview'>
+                    <Preview/>
                 </Route>
             <Footer />
         </main>

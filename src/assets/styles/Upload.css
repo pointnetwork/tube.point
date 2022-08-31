@@ -1,0 +1,22 @@
+.upload-box {
+  max-width: 700px;
+  min-height: 300px;
+  margin: 0 auto;
+  border: 2px solid #040;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: beige;
+  border-radius: 20px;
+  margin-bottom: 40px;
+}
+.upload-box h3{font-size: 30px; font-weight: 500; margin-bottom: 40px;}
+.upload-icon{margin-bottom: 30px;}
+.upload-icon img{width: 100px;}
+.upload-box p{font-size: 20px}
+.upload-btn-group{text-align: center;}
+.upload-btn-group a{margin: 0 10px; text-decoration: none; padding: 9px 20px; background-color: #000; width: 120px; color: #fff; border: 1px solid #000;overflow: hidden; transition:  all 0.3s; border-radius: 12px; font-size: 16px;}
+.upload-btn-group a:hover{background-color: transparent; color: #000;}
+.upload-btn-group a:first-child{margin-left: 0;}
+.upload-btn-group a:last-child{margin-right: 0;}
