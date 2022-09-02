@@ -5,12 +5,11 @@ import { Link } from "wouter";
 import {Container, Row, Col, Form,} from "react-bootstrap";
 
 import UploadIcon from '../../src/assets/images/cloud-upload.svg';
-// import "node_modules/video-react/dist/video-react.css"; 
 import '../../node_modules/video-react/dist/video-react.css'; // import css
 
 import '../assets/styles/Upload.css'
 
-export default function Examples() {
+export default function Upload() {
   return (
 	<>	
 		<div className="home-page-wrap upload-page">
@@ -49,7 +48,7 @@ export default function Examples() {
                                 </div>
                                 <p>Drag and drop video files to upload</p>
                             </div> */}
-                            
+
                             <div className="upload-container">
                                 <div className="upload-container-wrapper">
                                     <div className="upload-svg">
