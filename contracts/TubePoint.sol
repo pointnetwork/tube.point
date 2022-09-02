@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.9;
+pragma solidity >=0.8.0;
 pragma experimental ABIEncoderV2;
 
+import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
@@ -9,28 +10,36 @@ import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 // This is an example contract. Please remove and create your own!
 contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
     using Counters for Counters.Counter;
-    Counters.Counter internal _exampleIds;
+    Counters.Counter internal fileCount;
 
-    struct Example {
-        uint256 id;
-        address from;
-        bytes32 contents;
-        uint256 createdAt;
+    struct File {
+        uint256 fileId;
+        string fileName;
+        string fileUri;
+        address uploader;
+        uint256 timestamp;
+    }
+    struct Comment {
+        address user;
+        string message;
+        uint256 timestamp;
     }
 
-    enum Action {
-        Example
-    }
+    mapping(uint256 => File) public files;
+    mapping(address => uint256[]) public userLinkedFiles;
+    mapping(uint256 => address[]) public likes;
+    mapping(uint256 => address[]) public dislikes;
+    mapping(uint256 => Comment[]) public comments;
 
-    event StateChange(
-        address indexed from,
-        uint256 indexed date,
-        Action indexed action
+    event FileUploaded(
+        uint256 fileId,
+        string fileName,
+        string fileUri,
+        address uploader,
+        uint256 timestamp
     );
 
-    Example[] public examples;
-    mapping(address => Example[]) public examplesByOwner;
-    mapping(uint256 => Example) public exampleById;
+    event Commented(address user, string message, uint256 timestamp);
 
     function initialize() public initializer onlyProxy {
         __Ownable_init();
@@ -39,46 +48,108 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
 
     function _authorizeUpgrade(address) internal override onlyOwner {}
 
-    // Post data functions
-    // example bytes32: "0x0000000000000000000000000000000000000000000068692066726f6d20706e"
-    function addExample(bytes32 contents) external {
-        _exampleIds.increment();
-        uint256 newExampleId = _exampleIds.current();
-        Example memory _example = Example(
-            newExampleId,
+    /**
+     * @dev uploadVideo function use to upload the file metadata to the smart contract files mapping
+     * @param _fileName : name of file
+     * @param _fileUri : uri of file metadata
+     */
+
+    function uploadVideo(string memory _fileName, string memory _fileUri)
+        public
+    {
+        require(bytes(_fileName).length > 0);
+        require(bytes(_fileUri).length > 0);
+        require(msg.sender != address(0));
+
+        // increase the number of files is using a counter
+        fileCount.increment();
+
+        files[fileCount.current()] = File(
+            fileCount.current(),
+            _fileName,
+            _fileUri,
             msg.sender,
-            contents,
             block.timestamp
         );
-        examples.push(_example);
-        exampleById[newExampleId] = _example;
-        examplesByOwner[msg.sender].push(_example);
-        emit StateChange(msg.sender, block.timestamp, Action.Example);
-    }
 
-    function getAllExamples() external view returns (Example[] memory) {
-        Example[] memory _examples = new Example[](examples.length);
-        for (uint256 i = 0; i < examples.length; i++) {
-            _examples[i] = exampleById[examples[i].id];
-        }
-        return _examples;
-    }
-
-    function getAllExamplesByOwner(address owner)
-        external
-        view
-        returns (Example[] memory)
-    {
-        Example[] memory _examples = new Example[](
-            examplesByOwner[owner].length
+        // From the frontend application
+        // we can listen the events emitted from
+        // the smart contract in order to update the UI.
+        emit FileUploaded(
+            fileCount.current(),
+            _fileName,
+            _fileUri,
+            msg.sender,
+            block.timestamp
         );
-        for (uint256 i = 0; i < examplesByOwner[owner].length; i++) {
-            _examples[i] = exampleById[examplesByOwner[owner][i].id];
-        }
-        return _examples;
+
+        userLinkedFiles[msg.sender].push(fileCount.current());
     }
 
-    function getExampleById(uint256 id) external view returns (Example memory) {
-        return exampleById[id];
+    // get detail of specific video file to show
+    function getVideo(uint256 fileId) public view returns (File memory) {
+        return files[fileId];
+    }
+
+    /**
+     * @dev like function use to like the specific video from frontend
+     * @param _fileId : id of the file
+     */
+
+    function like(uint256 _fileId) public {
+        likes[_fileId].push(msg.sender);
+    }
+
+    // get total number of likes of specific video
+
+    function getLikes(uint256 fileId) public view returns (address[] memory) {
+        return likes[fileId];
+    }
+
+    /**
+     * @dev dislike function use to dislike the specific video from frontend
+     * @param _fileId : id of the file
+     */
+
+    function dislike(uint256 _fileId) public {
+        dislikes[_fileId].push(msg.sender);
+    }
+
+    // get total number of dislikes of specific video
+
+    function getDislikes(uint256 fileId)
+        public
+        view
+        returns (address[] memory)
+    {
+        return dislikes[fileId];
+    }
+
+    /**
+     * @dev comment function use to store the user's comment to the smart contract comments mapping
+     * @param _message : message which user will type
+     * @param _fileId : id of the file
+     */
+
+    function comment(string memory _message, uint256 _fileId) public {
+        require(bytes(_message).length > 0);
+        require(msg.sender != address(0));
+
+        comments[_fileId].push(Comment(msg.sender, _message, block.timestamp));
+
+        // From the frontend application
+        // we can listen the events emitted from
+        // the smart contract in order to update the UI.
+        emit Commented(msg.sender, _message, block.timestamp);
+    }
+
+    // get total comments of specific video
+
+    function getComments(uint256 fileId)
+        public
+        view
+        returns (Comment[] memory)
+    {
+        return comments[fileId];
     }
 }

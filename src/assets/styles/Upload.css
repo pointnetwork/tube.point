@@ -20,3 +20,28 @@
 .upload-btn-group a:hover{background-color: transparent; color: #000;}
 .upload-btn-group a:first-child{margin-left: 0;}
 .upload-btn-group a:last-child{margin-right: 0;}
+.upload-container{padding: 12px; background-color: #fff; box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12); border-radius: 5px;}
+.upload-container-wrapper {width: 100%; border: 1px solid #ccc; height: 100%; display: flex; max-height: 450px; min-height: 400px; align-items: center; border-radius: 4px; justify-content: center; background-color: #ddd;}
+.upload-svg{opacity: 0.5; background-color: #000; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; border-radius: 50%; cursor: pointer; position: relative;}
+.upload-svg:hover{background-color: #d5d5d5; box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12); transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;}
+.upload-svg svg{fill: #fff; }
+  .upload-svg #myfile {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .upload-container-wrapper {
+    position: relative;
+  }
+  .upload-container-wrapper video,
+  .upload-container-wrapper img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+  }
