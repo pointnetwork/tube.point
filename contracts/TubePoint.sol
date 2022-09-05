@@ -12,11 +12,12 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
     Counters.Counter internal fileCount;
 
     struct File {
-        uint256 fileId;
-        string fileName;
-        string fileUri;
-        address uploader;
-        uint256 timestamp;
+        uint256 id;
+        address from;
+        bytes32 fileId;
+        uint256 createdAt;
+        uint16 likesCount;
+        uint16 commentsCount;
     }
     struct Comment {
         address user;
@@ -32,8 +33,7 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
 
     event FileUploaded(
         uint256 fileId,
-        string fileName,
-        string fileUri,
+        bytes32 video,
         address uploader,
         uint256 timestamp
     );
@@ -49,15 +49,12 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
 
     /**
      * @dev uploadVideo function use to upload the file metadata to the smart contract files mapping
-     * @param _fileName : name of file
-     * @param _fileUri : uri of file metadata
+     * @param fileId : fileId
      */
 
-    function uploadVideo(string memory _fileName, string memory _fileUri)
+    function uploadVideo(bytes32 fileId)
         public
     {
-        require(bytes(_fileName).length > 0);
-        require(bytes(_fileUri).length > 0);
         require(msg.sender != address(0));
 
         // increase the number of files is using a counter
@@ -65,10 +62,11 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
 
         files[fileCount.current()] = File(
             fileCount.current(),
-            _fileName,
-            _fileUri,
             msg.sender,
-            block.timestamp
+            fileId,
+            block.timestamp,
+            0,
+            0
         );
 
         // From the frontend application
@@ -76,8 +74,7 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
         // the smart contract in order to update the UI.
         emit FileUploaded(
             fileCount.current(),
-            _fileName,
-            _fileUri,
+            fileId,
             msg.sender,
             block.timestamp
         );
@@ -150,5 +147,9 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
         returns (Comment[] memory)
     {
         return comments[fileId];
+    }
+
+    function getAllVideosLength() public view returns (uint256) {
+        return fileCount.current();
     }
 }

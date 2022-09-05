@@ -15,6 +15,8 @@ import { useState, useEffect } from "react";
 import '../../node_modules/video-react/dist/video-react.css'; // import css
 
 import '../assets/styles/Home.css'
+import PostManager from '../services/PostManager';
+import point from "../services/PointSDK";
 
 
 export default function Home() {
@@ -22,6 +24,7 @@ export default function Home() {
   const [currentPointNodeVersion, setCurrentPointNodeVersion] = useState("");
   const [requiredPointNodeVersion, setRequiredPointNodeVersion] = useState("");
   const [requiredPointSDKVersion, setRequiredPointSDKVersion] = useState("");
+  const [length, setLength] = useState(0);
 
   const popover = (
     <Popover id="popover-basic">
@@ -67,11 +70,86 @@ export default function Home() {
     }
   };
 
+  const getVideosLength = async() => {
+    try {
+      const data = await PostManager.getAllVideosLength()
+      setLength(Number(data));
+    }
+    catch(error) {
+      console.log(error.message);
+    }
+  }
+
+  const fetchVideos = async (onlyNew = false) => {
+    try {
+      setLoading(true);
+  
+      const data = await (account? 
+        PostManager.getPaginatedPostsByOwner(account,onlyNew?0:posts.length,NUM_POSTS_PER_CALL) : 
+        PostManager.getPaginatedPosts(onlyNew?0:posts.length,NUM_POSTS_PER_CALL));
+
+      const newPosts = data.filter(r => (parseInt(r[4]) !== 0))
+        .map(([id, from, contents, image, createdAt, likesCount, commentsCount, dislikesCount, liked, disliked]) => (
+          {
+            id,
+            from,
+            contents,
+            image, 
+            createdAt: createdAt*1000, 
+            likesCount: parseInt(likesCount, 10), 
+            dislikesCount: parseInt(dislikesCount, 10), 
+            commentsCount: parseInt(commentsCount, 10),
+            liked,
+            disliked,
+          }
+        )  
+      );
+
+      return await Promise.all(newPosts.map(async post => {
+        try {
+          post.isFlagged = await PostManager.isFlaggedPost(post.id);
+        }
+        catch(error) {
+          console.warn(error.message);
+        }
+        return post;
+      }));
+
+    } catch(error) {
+      console.log(error.message);
+      setAlert(error.message);
+    }
+    finally {
+      setLoading(false);
+    }
+  }
+
+  const getPosts = async (loadNew = false) => {
+    try {
+      setLoading(true);
+      const posts = await fetchPosts(loadNew);
+      setPosts(prev => {
+        const result = unionWith(prev, posts, isEqual);
+        result.sort(compareByTimestamp);
+        return result;
+      });
+    }
+    catch(error) {
+      console.log(error);
+      setAlert(error.message);
+    }
+    finally {
+      setLoading(false);
+    }
+  }
+
   let currentVersionSDK = window.point.version;
 
   useEffect(() => {
+	getVideosLength();
     fetchVersions();
   }, []);
+  
 
   return (
     <>
@@ -87,83 +165,6 @@ export default function Home() {
 					<BigPlayButton position="center" />
 				</Player>
 			</div>
-			</Col>
-			<Col xl={3} lg={4} sm={6}>
-				<div className="video-card">
-					<Player src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4">
-						<BigPlayButton position="center" />
-					</Player>
-				</div>
-			</Col>
-			<Col xl={3} lg={4} sm={6}>
-				<div className="video-card">
-					<Player src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4">
-						<BigPlayButton position="center" />
-					</Player>
-				</div>
-			</Col>
-			<Col xl={3} lg={4} sm={6}>
-				<div className="video-card">
-					<Player src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4">
-						<BigPlayButton position="center" />
-					</Player>
-				</div>
-			</Col>
-			<Col xl={3} lg={4} sm={6}>
-				<div className="video-card">
-					<Player src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4">
-						<BigPlayButton position="center" />
-					</Player>
-				</div>
-			</Col>
-			<Col xl={3} lg={4} sm={6}>
-				<div className="video-card">
-					<Player src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4">
-						<BigPlayButton position="center" />
-					</Player>
-				</div>
-			</Col>
-			<Col xl={3} lg={4} sm={6}>
-				<div className="video-card">
-					<Player src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4">
-						<BigPlayButton position="center" />
-					</Player>
-				</div>
-			</Col>
-			<Col xl={3} lg={4} sm={6}>
-				<div className="video-card">
-					<Player src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4">
-						<BigPlayButton position="center" />
-					</Player>
-				</div>
-			</Col>
-			<Col xl={3} lg={4} sm={6}>
-				<div className="video-card">
-					<Player src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4">
-						<BigPlayButton position="center" />
-					</Player>
-				</div>
-			</Col>
-			<Col xl={3} lg={4} sm={6}>
-				<div className="video-card">
-					<Player src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4">
-						<BigPlayButton position="center" />
-					</Player>
-				</div>
-			</Col>
-			<Col xl={3} lg={4} sm={6}>
-				<div className="video-card">
-					<Player src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4">
-						<BigPlayButton position="center" />
-					</Player>
-				</div>
-			</Col>
-			<Col xl={3} lg={4} sm={6}>
-				<div className="video-card">
-					<Player src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4">
-						<BigPlayButton position="center" />
-					</Player>
-				</div>
 			</Col>
 			</Row>
         </Container>
