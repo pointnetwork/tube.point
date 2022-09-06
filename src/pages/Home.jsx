@@ -15,7 +15,7 @@ import { useState, useEffect } from "react";
 import '../../node_modules/video-react/dist/video-react.css'; // import css
 
 import '../assets/styles/Home.css'
-import PostManager from '../services/PostManager';
+import TubeManager from '../services/TubeManager';
 import point from "../services/PointSDK";
 
 
@@ -25,6 +25,7 @@ export default function Home() {
   const [requiredPointNodeVersion, setRequiredPointNodeVersion] = useState("");
   const [requiredPointSDKVersion, setRequiredPointSDKVersion] = useState("");
   const [length, setLength] = useState(0);
+  const [videos, setVideos] = useState([]);
 
   const popover = (
     <Popover id="popover-basic">
@@ -72,7 +73,8 @@ export default function Home() {
 
   const getVideosLength = async() => {
     try {
-      const data = await PostManager.getAllVideosLength()
+      const data = await TubeManager.getAllVideosLength()
+	  console.log('data1',data)
       setLength(Number(data));
     }
     catch(error) {
@@ -80,73 +82,33 @@ export default function Home() {
     }
   }
 
-  const fetchVideos = async (onlyNew = false) => {
+  const getVideos = async () => {
+	await getVideosLength();
     try {
-      setLoading(true);
-  
-      const data = await (account? 
-        PostManager.getPaginatedPostsByOwner(account,onlyNew?0:posts.length,NUM_POSTS_PER_CALL) : 
-        PostManager.getPaginatedPosts(onlyNew?0:posts.length,NUM_POSTS_PER_CALL));
-
-      const newPosts = data.filter(r => (parseInt(r[4]) !== 0))
-        .map(([id, from, contents, image, createdAt, likesCount, commentsCount, dislikesCount, liked, disliked]) => (
-          {
-            id,
-            from,
-            contents,
-            image, 
-            createdAt: createdAt*1000, 
-            likesCount: parseInt(likesCount, 10), 
-            dislikesCount: parseInt(dislikesCount, 10), 
-            commentsCount: parseInt(commentsCount, 10),
-            liked,
-            disliked,
-          }
-        )  
-      );
-
-      return await Promise.all(newPosts.map(async post => {
-        try {
-          post.isFlagged = await PostManager.isFlaggedPost(post.id);
-        }
-        catch(error) {
-          console.warn(error.message);
-        }
-        return post;
-      }));
-
-    } catch(error) {
-      console.log(error.message);
-      setAlert(error.message);
-    }
-    finally {
-      setLoading(false);
-    }
-  }
-
-  const getPosts = async (loadNew = false) => {
-    try {
-      setLoading(true);
-      const posts = await fetchPosts(loadNew);
-      setPosts(prev => {
-        const result = unionWith(prev, posts, isEqual);
-        result.sort(compareByTimestamp);
-        return result;
-      });
+		let _videos = [];
+		const data = await TubeManager.getVideo(6);
+		console.log('data',data)
+		// for(var i=1;i<=length;i++){
+		// 	console.log('data',i)
+		// 	const data = await TubeManager.getVideo(i);
+			
+		// 	console.log('data',data)
+		// 	_videos.push(data)
+		// }
+		console.log("_videos",_videos)
+		setVideos(_videos);
     }
     catch(error) {
       console.log(error);
-      setAlert(error.message);
     }
     finally {
-      setLoading(false);
     }
   }
 
   let currentVersionSDK = window.point.version;
 
   useEffect(() => {
-	getVideosLength();
+	getVideos();
     fetchVersions();
   }, []);
   

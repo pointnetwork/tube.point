@@ -7,8 +7,9 @@ import UploadIcon from "../../src/assets/images/cloud-upload.svg";
 import "../../node_modules/video-react/dist/video-react.css"; // import css
 import "../assets/styles/Upload.css";
 import { Input } from "@material-ui/icons";
-import PostManager from '../services/PostManager';
+import TubeManager from '../services/TubeManager';
 import point from "../services/PointSDK";
+import { SnackbarProvider } from 'notistack';
 
 const MAX_FILE_SIZE = 100 * 1024 * 1024;
 const MEDIA_TYPES = "image/gif,image/png,image/jpeg,image/bmp,image/webp,video/webm,video/ogg,video/mp4,video/mpeg";
@@ -116,7 +117,7 @@ async function saveFile(file) {
     //   setLoading(true);
       const videoId = media ? await saveFile(media) : EMPTY;
       console.log('videoId',videoId)
-      await PostManager.uploadVideo(videoId);
+      await TubeManager.uploadVideo(videoId);
 
     //   setAlert("Your video is published successfully !|success");
     //   reset();
@@ -129,51 +130,11 @@ async function saveFile(file) {
     }
   };
 
-  //   const submitHandler = async (e) => {
-  //     e.preventDefault();
-  //     console.log("file", selectedFile);
-  //     // let fileInputRef ;
-  //     let EMPTY_TEXT;
-  //     let EMPTY_IMAGE;
-  //     // let PostManager ;
-  //     // let reloadPosts ;
-  //     // setSaving(true);
-  //     // try {
-  //     // Save the post content to the storage layer and keep the storage id
-  //     //   let {data: storageId} = (contents && contents.trim().length > 0)? await window.point.storage.putString({data: contents}) : { data: EMPTY_TEXT };
-  //     let imageId = EMPTY_IMAGE;
-  //     //   console.log(selectedFile)
-  //     if (selectedFile) {
-  //       console.log("awlw", selectedFile);
-  //       const formData = new FormData();
-  //       formData.append("postfile", selectedFile);
-  //       console.log("formData", formData);
 
-  //       const res = await window.point.storage.postFile(formData);
-  //       console.log("res", res);
-  //       imageId = res.data;
-  //       console.log(imageId);
-  //     }
-  //     // Save the post contents storage id in the PoinSocial Smart Contract
-  //     //   await PostManager.addPost(storageId, imageId)
-  //     //   await reloadPosts();
-  //     //   setSaving(false);
-  //     //   setContents('');
-  //     //   setSelectedFile();
-  //     //   fileInputRef.current.value = null
-  //     //   setBtnEnabled(false);
-  //     // } catch (e) {
-  //     // console.log(e)
-  //     //   console.error('Error sharing post: ', e.message);
-  //     //   setSaving(false);
-  //     //   setContents('');
-  //     //   setSelectedFile();
-  //     //   fileInputRef.current.value = null
-  //     //   setBtnEnabled(false);
-  //     //   setShareError(e);
-  //     //   setAlert(true);
-  //     // }
-  //   };
+  const clearMedia = () => {
+    setMedia(undefined);
+    setMediaType(undefined);
+  }
 
   return (
     <>
@@ -236,7 +197,12 @@ async function saveFile(file) {
 
                 <div className="upload-container">
                   <div className="upload-container-wrapper">
-                    <div className="upload-svg">
+                    
+
+                    {
+                        media === undefined ? 
+                        <>
+                            <div className="upload-svg">
                       <svg
                         height="40"
                         viewBox="0 0 1792 1792"
@@ -255,6 +221,26 @@ async function saveFile(file) {
                         onChange={changeHandler}
                       />
                     </div>
+                        </> 
+                        : 
+                        <>
+                            <div className="upload-svg media-remove-icon" onClick={clearMedia}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                    </div>
+                        </> 
+                    }
+                    
+
+                    
+
+
+
+                    {(mediaType === 'image') && 
+                    <img src={media} alt=""/>}
+                    {(mediaType === 'video') && 
+                    <video controls>
+                        <source src={media}></source>
+                    </video>}
                     {/* <video controls><source src="" type="video/mp4" /></video>
                                     <img src="" alt="" className="img-fluid" /> */}
                   </div>

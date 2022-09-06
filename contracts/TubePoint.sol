@@ -32,7 +32,7 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
     mapping(uint256 => Comment[]) public comments;
 
     event FileUploaded(
-        uint256 fileId,
+        uint256 id,
         bytes32 video,
         address uploader,
         uint256 timestamp
@@ -152,4 +152,5 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
     function getAllVideosLength() public view returns (uint256) {
         return fileCount.current();
     }
+
 }
