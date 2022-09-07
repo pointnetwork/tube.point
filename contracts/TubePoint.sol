@@ -15,26 +15,30 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
         uint256 id;
         address from;
         bytes32 fileId;
-        uint256 createdAt;
-        uint16 likesCount;
-        uint16 commentsCount;
+        string title;
+        string desc;
+        uint256 timestamp;
     }
     struct Comment {
         address user;
         string message;
         uint256 timestamp;
     }
+    struct Like {
+        uint256 counter;
+        mapping(address => bool) userAddress;
+    }
 
     mapping(uint256 => File) public files;
-    mapping(address => uint256[]) public userLinkedFiles;
-    mapping(uint256 => address[]) public likes;
-    mapping(uint256 => address[]) public dislikes;
+    mapping(address => File[]) public userLinkedFiles;
     mapping(uint256 => Comment[]) public comments;
+    mapping(address => File[]) public playlist;
+    mapping(uint256 => Like) public likes;
 
     event FileUploaded(
         uint256 id,
-        bytes32 video,
-        address uploader,
+        bytes32 fileId,
+        address from,
         uint256 timestamp
     );
 
@@ -52,9 +56,11 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
      * @param fileId : fileId
      */
 
-    function uploadVideo(bytes32 fileId)
-        public
-    {
+    function uploadVideo(
+        string memory title,
+        string memory desc,
+        bytes32 fileId
+    ) public {
         require(msg.sender != address(0));
 
         // increase the number of files is using a counter
@@ -64,22 +70,46 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
             fileCount.current(),
             msg.sender,
             fileId,
-            block.timestamp,
-            0,
-            0
+            title,
+            desc,
+            block.timestamp
         );
 
-        // From the frontend application
-        // we can listen the events emitted from
-        // the smart contract in order to update the UI.
+        userLinkedFiles[msg.sender].push(files[fileCount.current()]);
+
         emit FileUploaded(
             fileCount.current(),
             fileId,
             msg.sender,
             block.timestamp
         );
+    }
 
-        userLinkedFiles[msg.sender].push(fileCount.current());
+    /**
+     * @dev updateVideo function use to update the file metadata to the smart contract files mapping
+     * @param id : id of the file
+     * @param title : title of the file
+     * @param desc : desc of the file metadata
+     * @param fileId : fileId of the file metadata
+     */
+
+    function updateVideo(
+        uint256 id,
+        string memory title,
+        string memory desc,
+        bytes32 fileId
+    ) public {
+        require(id > 0);
+        File storage file = files[id];
+        require(msg.sender == file.from, "You cannot edit this video");
+        require(file.from != address(0), "Record not found");
+
+        file.title = title;
+        file.desc = desc;
+        file.fileId = fileId;
+        file.timestamp = block.timestamp;
+
+        emit FileUploaded(id, fileId, msg.sender, block.timestamp);
     }
 
     // get detail of specific video file to show
@@ -89,68 +119,70 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
 
     /**
      * @dev like function use to like the specific video from frontend
-     * @param _fileId : id of the file
+     * @param id : id of the file
      */
 
-    function like(uint256 _fileId) public {
-        likes[_fileId].push(msg.sender);
+    function like(uint256 id) public {
+        Like storage _like = likes[id];
+        require(
+            _like.userAddress[msg.sender] == false,
+            "You already liked this video"
+        );
+        _like.counter++;
+        _like.userAddress[msg.sender] = true;
     }
 
     // get total number of likes of specific video
 
-    function getLikes(uint256 fileId) public view returns (address[] memory) {
-        return likes[fileId];
+    function getLikes(uint256 id) public view returns (uint256) {
+        return (likes[id].counter);
     }
 
     /**
      * @dev dislike function use to dislike the specific video from frontend
-     * @param _fileId : id of the file
+     * @param id : id of the file
      */
 
-    function dislike(uint256 _fileId) public {
-        dislikes[_fileId].push(msg.sender);
-    }
-
-    // get total number of dislikes of specific video
-
-    function getDislikes(uint256 fileId)
-        public
-        view
-        returns (address[] memory)
-    {
-        return dislikes[fileId];
-    }
-
-    /**
-     * @dev comment function use to store the user's comment to the smart contract comments mapping
-     * @param _message : message which user will type
-     * @param _fileId : id of the file
-     */
-
-    function comment(string memory _message, uint256 _fileId) public {
-        require(bytes(_message).length > 0);
-        require(msg.sender != address(0));
-
-        comments[_fileId].push(Comment(msg.sender, _message, block.timestamp));
-
-        // From the frontend application
-        // we can listen the events emitted from
-        // the smart contract in order to update the UI.
-        emit Commented(msg.sender, _message, block.timestamp);
+    function dislike(uint256 id) public {
+        Like storage _like = likes[id];
+        bool status = _like.userAddress[msg.sender];
+        _like.userAddress[msg.sender] = false;
+        if (status == true && _like.counter > 0) {
+            _like.counter--;
+        }
     }
 
     // get total comments of specific video
 
-    function getComments(uint256 fileId)
-        public
-        view
-        returns (Comment[] memory)
-    {
-        return comments[fileId];
+    function getComments(uint256 id) public view returns (Comment[] memory) {
+        return comments[id];
+    }
+
+    /**
+     * @dev addToPlaylist function use to store the user selected video to the smart contract playlist mapping
+     * @param id : id of the file
+     */
+
+    function addToPlaylist(uint256 id) public {
+        bool flag = false;
+        for (uint256 i = 0; i < playlist[msg.sender].length; i++) {
+            if (playlist[msg.sender][i].id == id) {
+                flag = true;
+                break;
+            }
+        }
+
+        require(flag == false, "you have already added this video in playlist");
+        playlist[msg.sender].push(files[id]);
+    }
+
+    // get playlist of specific user
+
+    function getPlaylist(address _address) public view returns (File[] memory) {
+        return playlist[_address];
     }
 
     function getAllVideosLength() public view returns (uint256) {
         return fileCount.current();
     }
-
 }

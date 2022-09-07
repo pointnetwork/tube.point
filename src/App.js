@@ -8,9 +8,13 @@ import Contracts from "./pages/Contracts";
 import Upload from "./pages/Upload";
 import Preview from "./pages/Prieview";
 
+import { ToastContainer } from 'react-toastify';
+
+
 const Main = () => {
   return (
     <main>
+      <ToastContainer />
       <Header />
       <Route path="/">
         <Home />

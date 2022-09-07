@@ -5,8 +5,10 @@ const EMPTY = '0x0000000000000000000000000000000000000000';
 class TubeManager {
     static getAllVideosLength = async () => point.contractCall("TubePoint", "getAllVideosLength", []);
     static getVideo = async (fileId) => point.contractCall("TubePoint", "getVideo", [fileId]);
-    static uploadVideo = async (fileId) =>
+    static uploadVideo = async (title,desc,fileId) =>
         point.contractCall("TubePoint", "uploadVideo", [
+            (title) ? title : "",
+            (desc) ? desc : "",
             (fileId) ? fileId : EMPTY
         ]);
 
