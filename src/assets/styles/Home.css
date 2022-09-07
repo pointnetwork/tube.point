@@ -11,11 +11,11 @@
 .home-page-wrap .video-card .video-react {
   margin-bottom: 10px;
 }
-.vidoe-author {
+.video-author {
   color: #606060;
   font-size: 12px;
 }
-.vidoe-author:hover {
+.video-author:hover {
   color: #000;
   cursor: pointer;
 }
@@ -25,4 +25,12 @@
   margin-bottom: 40px;
   text-align: center;
   font-weight: 700;
+}
+.video-name {
+  color: #000;
+  text-decoration: none;
+}
+.video-name:hover {
+  color: #000;
+  text-decoration: underline;
 }

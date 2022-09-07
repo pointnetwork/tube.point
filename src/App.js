@@ -7,6 +7,7 @@ import Examples from "./pages/MyVideos";
 import Contracts from "./pages/Contracts";
 import Upload from "./pages/Upload";
 import Preview from "./pages/Prieview";
+import VideoDetails from "./pages/VideoDetails";
 
 import { ToastContainer } from 'react-toastify';
 
@@ -30,6 +31,9 @@ const Main = () => {
       </Route>
       <Route path="/preview">
         <Preview />
+      </Route>
+      <Route path="/video-detail">
+        <VideoDetails />
       </Route>
       <Footer />
     </main>

@@ -51,3 +51,6 @@
 .pagination-wrapper .pagination {justify-content: flex-end;}
 .pagination-wrapper .active > .page-link, .pagination-wrapper .page-link.active{background-color: rgb(33, 37, 41); border-color: rgb(33, 37, 41); color: #fff !important;}
 .page-link{color: rgb(33, 37, 41) !important;}
+.video-details {padding-top: 30px;}
+.name-views {padding: 15px 0; border-bottom: 1px solid #606060;}
+.name-views span {color: #606060; font-size: 14px;}

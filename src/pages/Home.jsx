@@ -70,9 +70,11 @@ export default function Home() {
     try {
       TubeManager.getAllVideosLength().then(function (_length) {
         for (var i = 1; i <= _length; i++) {
-          TubeManager.getVideo(i).then(function (_data) {
+          TubeManager.getVideo(i).then(async function (_data) {
             if (_data[0] != "0") {
-              console.log('_data',_data)
+              console.log('_data',_data[2])
+              _data[2] = await window.point.storage.getFile({id: _data[2]})
+              console.log('_data[2]',_data[2])
               setVideos((video) => [...video, _data]);
             }
           });
@@ -123,11 +125,14 @@ export default function Home() {
                   <>
                     <Col xl={3} lg={4} sm={6}>
                       <div className="video-card">
-                        <Player src={`/_storage/${_item[2]}`}>
+                        <Player 
+                        // src={`/_storage/${_item[2]}`}
+                        src={URL.createObjectURL(_item[2])}
+                        >
                           <BigPlayButton position="center" />
                         </Player>
-                        <p className="vidoe-name mb-0">{_item[3]}</p>
-                        <p className="vidoe-author mb-0">
+                        <Link to='/video-detail/' className="video-name mb-0">{_item[3]}</Link>
+                        <p className="video-author mb-0">
                           {_item[1].substring(0, 2) +
                             " ... " +
                             _item[1].substring(
@@ -141,7 +146,7 @@ export default function Home() {
                 );
               })}
           </Row>
-          {paginationBasic}
+          {/* {paginationBasic} */}
         </Container>
       </div>
     </>
