@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../../node_modules/video-react/dist/video-react.css"; // import css
 import "../assets/styles/Upload.css";
+import { useRoute } from "wouter";
 
 const MAX_FILE_SIZE = 100 * 1024 * 1024;
 const MEDIA_TYPES = "video/webm,video/ogg,video/mp4,video/mpeg";
@@ -18,6 +19,34 @@ const EditVideo = () => {
   const [media, setMedia] = useState();
   const [mediaType, setMediaType] = useState();
   const mediaRef = createRef();
+  const [video, setVideo] = useState(null);
+  const [match, params] = useRoute("/edit-video/:id");
+
+  const getVideo = async (_id) => {
+    try {
+      TubeManager.getVideo(_id).then(async function (_data) {
+        if (_data[0] != "0") {
+          _data[2] = await window.point.storage.getFile({ id: _data[2] });
+          setVideo(_data);
+          setTitle(_data[3]);
+          setDescription(_data[4]);
+          setMediaType('video');
+          setMedia(await blobToBase64(_data[2]))
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+    }
+  };
+
+  useEffect(() => {
+    getVideo(params.id);
+  }, []);
+
+  useEffect(() => {
+    console.log("video", video);
+  }, [video]);
 
   const changeHandler = (event) => {
     try {
@@ -32,7 +61,10 @@ const EditVideo = () => {
             data.indexOf(";")
           );
           if (!MEDIA_TYPES.split(",").includes(contentType)) {
-            toast.warning("The selected file format is unsupported, please select another file", { position: "bottom-center" });
+            toast.warning(
+              "The selected file format is unsupported, please select another file",
+              { position: "bottom-center" }
+            );
             return;
           }
           setMediaType(
@@ -41,37 +73,50 @@ const EditVideo = () => {
           setMedia(data);
         };
       } else if (file && file.size > MAX_FILE_SIZE) {
-        toast.warning("For now, Point Social only supports files up to 100 MB. Please select a smaller media file.", { position: "bottom-center" });
+        toast.warning(
+          "For now, Point Social only supports files up to 100 MB. Please select a smaller media file.",
+          { position: "bottom-center" }
+        );
       }
     } catch (error) {
       console.log(error.message);
     }
   };
 
+  async function blobToBase64(blob) {
+    return new Promise((resolve, _) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.readAsDataURL(blob);
+    });
+  }
 
-function DataURIToBlob(dataURI) {
-    const splitDataURI = dataURI.split(',')
-    const byteString = splitDataURI[0].indexOf('base64') >= 0 ? atob(splitDataURI[1]) : decodeURI(splitDataURI[1])
-    const mimeString = splitDataURI[0].split(':')[1].split(';')[0]
-    const ia = new Uint8Array(byteString.length)
+  function DataURIToBlob(dataURI) {
+    const splitDataURI = dataURI.split(",");
+    const byteString =
+      splitDataURI[0].indexOf("base64") >= 0
+        ? atob(splitDataURI[1])
+        : decodeURI(splitDataURI[1]);
+    const mimeString = splitDataURI[0].split(":")[1].split(";")[0];
+    const ia = new Uint8Array(byteString.length);
     for (let i = 0; i < byteString.length; i++)
-        ia[i] = byteString.charCodeAt(i)
+      ia[i] = byteString.charCodeAt(i);
 
-    return new Blob([ia], { type: mimeString })
-}
+    return new Blob([ia], { type: mimeString });
+  }
 
-async function saveFile(file) {
+  async function saveFile(file) {
     const formData = new FormData();
     formData.append("postfile", DataURIToBlob(file));
     const storageId = await point.postFile(formData);
     return storageId;
-}
+  }
 
-  const uploadVideo = async (e) => {
+  const updateVideo = async (e) => {
     e.preventDefault();
     let validate = validateForm();
-    if(!validate){
-        return;
+    if (!validate) {
+      return;
     }
     try {
       if (!media) {
@@ -79,14 +124,19 @@ async function saveFile(file) {
         return;
       }
       const videoId = await saveFile(media);
-      await TubeManager.uploadVideo(title,description,videoId);
+      console.log("videoId", videoId);
+      await TubeManager.updateVideo(
+        parseInt(video[0]),
+        title,
+        description,
+        videoId
+      );
       toast.success("Your video is published successfully !", {
         position: "bottom-center",
       });
     } catch (error) {
       toast.error(error.message, { position: "bottom-center" });
     } finally {
-
     }
   };
 
@@ -97,32 +147,31 @@ async function saveFile(file) {
 
   const goBack = () => {
     history.back();
-  }
+  };
 
   const validateForm = () => {
     let validate = true;
-    if(title === ""){
-        setTitleError("Please enter video title");
-        validate = false;
+    if (title === "") {
+      setTitleError("Please enter video title");
+      validate = false;
     } else {
-        setTitleError("");
+      setTitleError("");
     }
-    if(description === ""){
-        setDescriptionError("Please enter video description");
-        validate = false;
+    if (description === "") {
+      setDescriptionError("Please enter video description");
+      validate = false;
     } else {
-        setDescriptionError("");
+      setDescriptionError("");
     }
     return validate;
-  }
-
+  };
 
   return (
     <>
       <div className="home-page-wrap upload-page">
         <Container>
           <h2>Edit Video</h2>
-          <Form onSubmit={uploadVideo}>
+          <Form onSubmit={updateVideo}>
             <Row>
               <Col lg={6}>
                 <div className="d-flex flex-column">
@@ -155,11 +204,20 @@ async function saveFile(file) {
                     <div className="error">{descriptionError}</div>
                   </Form.Group>
                   <div className="header-btn-group">
-                    <Button type="submit" variant="success" className="main-btn-1">
+                    <Button
+                      type="submit"
+                      variant="success"
+                      className="main-btn-1"
+                    >
                       Publish
                     </Button>
-                    <Button type="submit" variant="dark" className="main-btn-1 ms-2" onClick={goBack}>
-                        Back
+                    <Button
+                      type="submit"
+                      variant="dark"
+                      className="main-btn-1 ms-2"
+                      onClick={goBack}
+                    >
+                      Back
                     </Button>
                   </div>
                 </div>
@@ -214,7 +272,9 @@ async function saveFile(file) {
                       </>
                     )}
 
-                    {mediaType === "image" && <img src={media} alt="" className="img-fluid" />}
+                    {mediaType === "image" && (
+                      <img src={media} alt="" className="img-fluid" />
+                    )}
                     {mediaType === "video" && (
                       <video controls>
                         <source src={media}></source>
@@ -229,7 +289,6 @@ async function saveFile(file) {
       </div>
     </>
   );
-}
-
+};
 
 export default EditVideo;

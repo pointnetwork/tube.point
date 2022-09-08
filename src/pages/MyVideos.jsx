@@ -73,7 +73,7 @@ export default function MyVideos() {
                         <div className="video-dd d-flex justify-content-between align-items-end">
                           <div>
                             <Link
-                            to={`/video-detail`}
+                            to={`/video-detail/`+_item[0]}
                             className="video-name mb-0"
                           >
                             {_item[3]}
@@ -87,7 +87,7 @@ export default function MyVideos() {
                               )}
                           </p>
                           </div>
-                          <Link to="/edit-video"><FontAwesomeIcon className="edit-video" icon={faPenToSquare} /></Link>
+                          <Link to={`/edit-video/`+_item[0]}><FontAwesomeIcon className="edit-video" icon={faPenToSquare} /></Link>
                         </div>
                       </div>
                     </Col>

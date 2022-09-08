@@ -33,10 +33,10 @@ const Main = () => {
       <Route path="/preview">
         <Preview />
       </Route>
-      <Route path="/video-detail">
+      <Route path="/video-detail/:id">
         <VideoDetails />
       </Route>
-      <Route path="/edit-video">
+      <Route path="/edit-video/:id">
         <EditVideo />
       </Route>
       <Footer />
