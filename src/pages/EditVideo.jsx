@@ -10,7 +10,7 @@ import "../assets/styles/Upload.css";
 const MAX_FILE_SIZE = 100 * 1024 * 1024;
 const MEDIA_TYPES = "video/webm,video/ogg,video/mp4,video/mpeg";
 
-export default function Upload() {
+const EditVideo = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [titleError, setTitleError] = useState("");
@@ -121,7 +121,7 @@ async function saveFile(file) {
     <>
       <div className="home-page-wrap upload-page">
         <Container>
-          <h2>Upload</h2>
+          <h2>Edit Video</h2>
           <Form onSubmit={uploadVideo}>
             <Row>
               <Col lg={6}>
@@ -230,3 +230,6 @@ async function saveFile(file) {
     </>
   );
 }
+
+
+export default EditVideo;

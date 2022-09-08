@@ -1,8 +1,8 @@
 
 const POINT_TIMEOUT = 50 * 1000;
 const MAX_TIMEOUT = 600 * 1000;
-const DEBUG = true;
-const DISPLAY_ERRORS = true;
+const DEBUG = false;
+const DISPLAY_ERRORS = false;
 
 class PointSDK {
 

@@ -1,4 +1,4 @@
 {
     "/": "index.html",
-    "/[a-zA-Z]+": "index.html"
+    "/([a-zA-Z\\-]+)": "index.html"
 }
