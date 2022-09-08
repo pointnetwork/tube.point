@@ -17,7 +17,6 @@ export default function Home() {
           TubeManager.getVideo(i).then(async function (_data) {
             if (_data[0] != "0") {
               _data[2] = await window.point.storage.getFile({id: _data[2]})
-              console.log('--- data ----',_data[2].type)
               setVideos((video) => [...video, _data]);
             }
           });

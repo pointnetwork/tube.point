@@ -12,11 +12,14 @@ import { useRoute } from "wouter";
 import TubeManager from "../services/TubeManager";
 import Moment from "react-moment";
 import moment from "moment";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const VideoDetails = ({ name }) => {
   const [video, setVideo] = useState(null);
+  const [likes, setLikes] = useState(0);
   const [match, params] = useRoute("/video-detail/:id");
-  const start = moment().add(-4, 'm');
+  const start = moment().add(-4, "m");
 
   const getVideo = async (_id) => {
     try {
@@ -24,6 +27,9 @@ const VideoDetails = ({ name }) => {
         if (_data[0] != "0") {
           _data[2] = await window.point.storage.getFile({ id: _data[2] });
           setVideo(_data);
+          TubeManager.getLikes(_id).then(async function (_likes) {
+            setLikes(_likes);
+          });
         }
       });
     } catch (error) {
@@ -32,13 +38,31 @@ const VideoDetails = ({ name }) => {
     }
   };
 
+  const likeHandler = async () => {
+    try {
+      await TubeManager.like(parseInt(params.id));
+      toast.success("Video Liked 👍", { position: "bottom-center" });
+    } catch (error) {
+      let er = error.message;
+      er = er.replace("VM Exception while processing transaction: revert", "");
+      toast.error(er, { position: "bottom-center" });
+    }
+  };
+
+  const unlikeHandler = async () => {
+    try {
+      await TubeManager.dislike(parseInt(params.id));
+      toast.success("Video Disliked 👎", { position: "bottom-center" });
+    } catch (error) {
+      let er = error.message;
+      er = er.replace("VM Exception while processing transaction: revert", "");
+      toast.error(er, { position: "bottom-center" });
+    }
+  };
+
   useEffect(() => {
     getVideo(params.id);
   }, []);
-
-  useEffect(() => {
-    console.log("video", video);
-  }, [video]);
 
   return (
     <>
@@ -58,18 +82,26 @@ const VideoDetails = ({ name }) => {
                       <h4 className="name">{video[3]}</h4>
                       <div className="views-social-icons d-flex justify-content-between align-items-center">
                         <span className="views">
-                          0 views *  
-                            <Moment unix format="LL">{video[5]}</Moment>
+                          0 views *
+                          <Moment unix format="LL">
+                            {video[5]}
+                          </Moment>
                         </span>
                         <div className="social-icons d-flex">
-                          <div className="icon d-flex align-items-center me-3">
+                          <div
+                            className="icon d-flex align-items-center me-3"
+                            onClick={likeHandler}
+                          >
                             <FontAwesomeIcon
                               className="me-1"
                               icon={faThumbsUp}
                             />{" "}
-                            <span>0</span>
+                            <span>{likes}</span>
                           </div>
-                          <div className="icon d-flex align-items-center me-3">
+                          <div
+                            className="icon d-flex align-items-center me-3"
+                            onClick={unlikeHandler}
+                          >
                             <FontAwesomeIcon
                               className="me-1"
                               icon={faThumbsDown}

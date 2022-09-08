@@ -44,10 +44,6 @@ const EditVideo = () => {
     getVideo(params.id);
   }, []);
 
-  useEffect(() => {
-    console.log("video", video);
-  }, [video]);
-
   const changeHandler = (event) => {
     try {
       const file = event.target.files[0];
@@ -124,7 +120,6 @@ const EditVideo = () => {
         return;
       }
       const videoId = await saveFile(media);
-      console.log("videoId", videoId);
       await TubeManager.updateVideo(
         parseInt(video[0]),
         title,

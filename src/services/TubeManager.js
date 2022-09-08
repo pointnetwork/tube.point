@@ -5,6 +5,8 @@ const EMPTY = "0x0000000000000000000000000000000000000000";
 class TubeManager {
   static getAllVideosLength = async () =>
     point.contractCall("TubePoint", "getAllVideosLength", []);
+  static getLikes = async (id) =>
+    point.contractCall("TubePoint", "getLikes", [id]);
   static getVideo = async (fileId) =>
     point.contractCall("TubePoint", "getVideo", [fileId]);
   static uploadVideo = async (title, desc, fileId) =>
@@ -20,6 +22,9 @@ class TubeManager {
       desc ? desc : "",
       fileId ? fileId : EMPTY,
     ]);
+  static like = async (id) => point.contractCall("TubePoint", "like", [id]);
+  static dislike = async (id) =>
+    point.contractCall("TubePoint", "dislike", [id]);
 
   // static deletePost = async (postId) => point.contractCall("PointSocial", "deletePost", [postId]);
   // static editPost = async (postId, contentId, imageId) => {
