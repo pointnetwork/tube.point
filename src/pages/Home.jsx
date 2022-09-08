@@ -53,7 +53,7 @@ export default function Home() {
                         <Player src={URL.createObjectURL(_item[2])}>
                           <BigPlayButton position="center" />
                         </Player>
-                        <Link to={`/video-detail`} className="video-name mb-0">{_item[3]}</Link>
+                        <Link to={`/video-detail/`+_item[0]} className="video-name mb-0">{_item[3]}</Link>
                         <p className="video-author mb-0">
                           {_item[1].substring(0, 2) +
                             " ... " +
