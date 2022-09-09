@@ -7,8 +7,14 @@ class TubeManager {
     point.contractCall("TubePoint", "getAllVideosLength", []);
   static getLikes = async (id) =>
     point.contractCall("TubePoint", "getLikes", [id]);
+  static getCommentsLength = async (id) =>
+    point.contractCall("TubePoint", "getCommentsLength", [id]);
+
   static getVideo = async (fileId) =>
     point.contractCall("TubePoint", "getVideo", [fileId]);
+  static getComments = async (id) =>
+    point.contractCall("TubePoint", "getComments", [id]);
+
   static uploadVideo = async (title, desc, fileId) =>
     point.contractCall("TubePoint", "uploadVideo", [
       title ? title : "",
@@ -22,6 +28,13 @@ class TubeManager {
       desc ? desc : "",
       fileId ? fileId : EMPTY,
     ]);
+
+  static comment = async (message, id) =>
+    point.contractCall("TubePoint", "comment", [
+      message ? message : "",
+      id ? id : "",
+    ]);
+
   static like = async (id) => point.contractCall("TubePoint", "like", [id]);
   static dislike = async (id) =>
     point.contractCall("TubePoint", "dislike", [id]);

@@ -152,10 +152,28 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
         }
     }
 
-    // get total comments of specific video
+    /**
+     * @dev comment function use to store the user's comment to the smart contract comments mapping
+     * @param _message : message which user will type
+     * @param id : id of the file
+     */
+
+    function comment(string memory _message, uint256 id) public {
+        require(bytes(_message).length > 0);
+        require(msg.sender != address(0));
+
+        comments[id].push(Comment(msg.sender, _message, block.timestamp));
+
+        emit Commented(msg.sender, _message, block.timestamp);
+    }
+
 
     function getComments(uint256 id) public view returns (Comment[] memory) {
         return comments[id];
+    }
+
+    function getCommentsLength(uint256 id) public view returns (uint256) {
+        return comments[id].length;
     }
 
     /**

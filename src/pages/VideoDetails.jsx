@@ -18,6 +18,8 @@ import "react-toastify/dist/ReactToastify.css";
 const VideoDetails = ({ name }) => {
   const [video, setVideo] = useState(null);
   const [likes, setLikes] = useState(0);
+  const [comment, setComment] = useState("");
+  const [comments, setComments] = useState([]);
   const [match, params] = useRoute("/video-detail/:id");
   const start = moment().add(-4, "m");
 
@@ -29,6 +31,21 @@ const VideoDetails = ({ name }) => {
           setVideo(_data);
           TubeManager.getLikes(_id).then(async function (_likes) {
             setLikes(_likes);
+          });
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+    }
+  };
+
+  const loadComments = async (id) => {
+    try {
+      TubeManager.getCommentsLength(id).then(function (_length) {
+        for (var i = 1; i <= _length; i++) {
+          TubeManager.getComments(i).then(async function (_data) {
+            setComments((comments) => [...comments, _data]);
           });
         }
       });
@@ -60,9 +77,30 @@ const VideoDetails = ({ name }) => {
     }
   };
 
+  const commentCreateHandler = async (e) => {
+    e.preventDefault();
+    try {
+      await TubeManager.comment(comment, parseInt(params.id));
+      toast.success("Comment posted successfully", {
+        position: "bottom-center",
+      });
+    } catch (error) {
+      let er = error.message;
+      er = er.replace("VM Exception while processing transaction: revert", "");
+      toast.error(er, { position: "bottom-center" });
+    }
+  };
+
   useEffect(() => {
     getVideo(params.id);
+    loadComments(params.id);
   }, []);
+
+  useEffect(() => {
+    if(comments.length > 0){
+      console.log('comments',comments)
+    }
+  }, [comments]);
 
   return (
     <>
@@ -135,29 +173,42 @@ const VideoDetails = ({ name }) => {
             <Col lg={3}>
               <div className="comment-container">
                 <div className="show-comments">
-                  <div className="comment">
-                    <p className="address">0x ... 048</p>
-                    <p className="comment-details">
-                      What Afghanistan did was really shameful. But Naseem shah
-                      took the perfect revenge! 😁 And Hassan ali's celebration
-                      was really cute. He showed that we are a TEAM! ❤️
-                    </p>
-                  </div>
+                  {comments[0] !== undefined && comments[0].length > 0 &&
+                    comments[0].map((_item) => {
+                      return (
+                        <>
+                          <div className="comment">
+                            <p className="address">
+                            {_item[0].substring(0, 2) +
+                            " ... " +
+                            _item[0].substring(
+                              _item[0].length,
+                              _item[0].length - 3
+                            )}
+                            </p>
+                            <p className="comment-details">{_item[1]}</p>
+                          </div>
+                        </>
+                      );
+                    })}
                 </div>
 
-                <form>
+                <form onSubmit={commentCreateHandler}>
                   <div className="add-a-comment">
                     <input
                       type="text"
                       placeholder="Add a comment..."
                       className="w-100"
+                      onChange={(e) => setComment(e.target.value)}
                     />
                   </div>
                   <div className="text-end pt-2">
                     <Button variant="light" className="me-2">
                       Cancel
                     </Button>
-                    <Button variant="success">Comment</Button>
+                    <Button variant="success" type="submit">
+                      Comment
+                    </Button>
                   </div>
                 </form>
               </div>
