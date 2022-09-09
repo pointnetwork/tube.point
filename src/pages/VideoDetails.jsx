@@ -42,12 +42,8 @@ const VideoDetails = ({ name }) => {
 
   const loadComments = async (id) => {
     try {
-      TubeManager.getCommentsLength(id).then(function (_length) {
-        for (var i = 1; i <= _length; i++) {
-          TubeManager.getComments(i).then(async function (_data) {
-            setComments((comments) => [...comments, _data]);
-          });
-        }
+      TubeManager.getComments(id).then(async function (_data) {
+        setComments((comments) => [...comments, _data]);
       });
     } catch (error) {
       console.log(error);
@@ -96,12 +92,6 @@ const VideoDetails = ({ name }) => {
     loadComments(params.id);
   }, []);
 
-  useEffect(() => {
-    if(comments.length > 0){
-      console.log('comments',comments)
-    }
-  }, [comments]);
-
   return (
     <>
       <section className="video-details">
@@ -120,7 +110,7 @@ const VideoDetails = ({ name }) => {
                       <h4 className="name">{video[3]}</h4>
                       <div className="views-social-icons d-flex justify-content-between align-items-center">
                         <span className="views">
-                          0 views *
+                          0 views *{" "}
                           <Moment unix format="LL">
                             {video[5]}
                           </Moment>
@@ -173,18 +163,19 @@ const VideoDetails = ({ name }) => {
             <Col lg={3}>
               <div className="comment-container">
                 <div className="show-comments">
-                  {comments[0] !== undefined && comments[0].length > 0 &&
+                  {comments[0] !== undefined &&
+                    comments[0].length > 0 &&
                     comments[0].map((_item) => {
                       return (
                         <>
                           <div className="comment">
                             <p className="address">
-                            {_item[0].substring(0, 2) +
-                            " ... " +
-                            _item[0].substring(
-                              _item[0].length,
-                              _item[0].length - 3
-                            )}
+                              {_item[0].substring(0, 2) +
+                                " ... " +
+                                _item[0].substring(
+                                  _item[0].length,
+                                  _item[0].length - 3
+                                )}
                             </p>
                             <p className="comment-details">{_item[1]}</p>
                           </div>
@@ -199,7 +190,7 @@ const VideoDetails = ({ name }) => {
                       type="text"
                       placeholder="Add a comment..."
                       className="w-100"
-                      onChange={(e) => setComment(e.target.value)}
+                      onKeyUp={(e) => setComment(e.target.value)}
                     />
                   </div>
                   <div className="text-end pt-2">

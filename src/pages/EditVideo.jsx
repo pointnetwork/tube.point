@@ -31,6 +31,7 @@ const EditVideo = () => {
           setTitle(_data[3]);
           setDescription(_data[4]);
           setMediaType('video');
+          
           setMedia(await blobToBase64(_data[2]))
         }
       });
@@ -39,7 +40,7 @@ const EditVideo = () => {
     } finally {
     }
   };
-
+console.log("mwdiAA",mediaType)
   useEffect(() => {
     getVideo(params.id);
   }, []);
@@ -246,7 +247,7 @@ const EditVideo = () => {
                       <>
                         <div
                           className="upload-svg media-remove-icon"
-                          onClick={clearMedia}
+                          // onClick={clearMedia}
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -270,7 +271,7 @@ const EditVideo = () => {
                     {mediaType === "image" && (
                       <img src={media} alt="" className="img-fluid" />
                     )}
-                    {mediaType === "video" && (
+                    {media && mediaType === "video" && (
                       <video controls>
                         <source src={media}></source>
                       </video>
