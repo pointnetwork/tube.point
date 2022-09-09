@@ -1,5 +1,5 @@
 {
     "/": "index.html",
     "/([a-zA-Z\\-]+)": "index.html",
-    "/([a-zA-Z\\-]+)/([0-9]+)": "index.html"
+    "/([a-zA-Z\\-]+)/([0-9]+)/": "index.html"
 }
