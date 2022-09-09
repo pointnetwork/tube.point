@@ -247,7 +247,7 @@ console.log("mwdiAA",mediaType)
                       <>
                         <div
                           className="upload-svg media-remove-icon"
-                          // onClick={clearMedia}
+                          onClick={clearMedia}
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
