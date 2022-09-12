@@ -39,6 +39,12 @@ class TubeManager {
   static dislike = async (id) =>
     point.contractCall("TubePoint", "dislike", [id]);
 
+  static subscribe = async (address) => point.contractCall("TubePoint", "subscribe", [address]);
+  static unSubscribe = async (address) =>
+    point.contractCall("TubePoint", "unSubscribe", [address]);
+  static isSubscribed = async (address) =>
+    point.contractCall("TubePoint", "isSubscribed", [address]);
+
   // static deletePost = async (postId) => point.contractCall("PointSocial", "deletePost", [postId]);
   // static editPost = async (postId, contentId, imageId) => {
   //     return point.contractCall("PointSocial", "editPost", [

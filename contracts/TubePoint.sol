@@ -28,12 +28,17 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
         uint256 counter;
         mapping(address => bool) userAddress;
     }
+    struct Subscribe {
+        uint256 counter;
+        mapping(address => bool) userAddress;
+    }
 
     mapping(uint256 => File) public files;
     mapping(address => File[]) public userLinkedFiles;
     mapping(uint256 => Comment[]) public comments;
     mapping(address => File[]) public playlist;
     mapping(uint256 => Like) public likes;
+    mapping(address => Subscribe) public subscribers;
 
     event FileUploaded(
         uint256 id,
@@ -167,7 +172,6 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
         emit Commented(msg.sender, _message, block.timestamp);
     }
 
-
     function getComments(uint256 id) public view returns (Comment[] memory) {
         return comments[id];
     }
@@ -202,5 +206,33 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
 
     function getAllVideosLength() public view returns (uint256) {
         return fileCount.current();
+    }
+
+    function isSubscribed(address _subAddress) public view returns (bool){
+        Subscribe storage _subscribe = subscribers[_subAddress];
+        return _subscribe.userAddress[msg.sender];
+    }
+
+    function subscribe(address _subAddress) public {
+        Subscribe storage _subscribe = subscribers[_subAddress];
+        require(
+            _subscribe.userAddress[msg.sender] == false,
+            "You already subscribed to this user"
+        );
+        _subscribe.counter++;
+        _subscribe.userAddress[msg.sender] = true;
+    }
+
+    function getSubscribe(address _subAddress) public view returns (uint256) {
+        return (subscribers[_subAddress].counter);
+    }
+
+    function unSubscribe(address _subAddress) public {
+        Subscribe storage _subscribe = subscribers[_subAddress];
+        bool status = _subscribe.userAddress[msg.sender];
+        _subscribe.userAddress[msg.sender] = false;
+        if (status == true && _subscribe.counter > 0) {
+            _subscribe.counter--;
+        }
     }
 }

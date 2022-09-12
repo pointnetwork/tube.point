@@ -15,10 +15,12 @@ import moment from "moment";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Comments from "./Comments";
+import "../assets/styles/VideoDetail.css";
 
 const VideoDetails = ({ name }) => {
   const [video, setVideo] = useState(null);
   const [likes, setLikes] = useState(0);
+  const [isSubscribed, setIsSubscribed] = useState(false);
   
   const [match, params] = useRoute("/video-detail/:id");
   const start = moment().add(-4, "m");
@@ -31,6 +33,10 @@ const VideoDetails = ({ name }) => {
           setVideo(_data);
           TubeManager.getLikes(_id).then(async function (_likes) {
             setLikes(_likes);
+          });
+          TubeManager.isSubscribed(_data[1]).then(async function (_isSubscribed) {
+            console.log('_isSubscribed',_isSubscribed)
+            setIsSubscribed(_isSubscribed);
           });
         }
       });
@@ -57,6 +63,28 @@ const VideoDetails = ({ name }) => {
     try {
       await TubeManager.dislike(parseInt(params.id));
       toast.success("Video Disliked 👎", { position: "bottom-center" });
+    } catch (error) {
+      let er = error.message;
+      er = er.replace("VM Exception while processing transaction: revert", "");
+      toast.error(er, { position: "bottom-center" });
+    }
+  };
+
+  const subscribeHandler = async () => {
+    try {
+      await TubeManager.subscribe(video[1]);
+      toast.success("Subscribed", { position: "bottom-center" });
+    } catch (error) {
+      let er = error.message;
+      er = er.replace("VM Exception while processing transaction: revert", "");
+      toast.error(er, { position: "bottom-center" });
+    }
+  };
+
+  const unSubscribeHandler = async () => {
+    try {
+      await TubeManager.unSubscribe(video[1]);
+      toast.success("Unsubscribed", { position: "bottom-center" });
     } catch (error) {
       let er = error.message;
       er = er.replace("VM Exception while processing transaction: revert", "");
@@ -115,6 +143,19 @@ const VideoDetails = ({ name }) => {
                             />{" "}
                             <span>Dislike</span>
                           </div>
+                    {isSubscribed && isSubscribed == true ? <><div
+                            className="icon d-flex align-items-center me-3 subscribe-btn"
+                            onClick={unSubscribeHandler}
+                          >
+                            <span>Unsubscribe</span>
+                          </div></> :  <><div
+                            className="icon d-flex align-items-center me-3 subscribe-btn"
+                            onClick={subscribeHandler}
+                          >
+                            <span>Subscribe</span>
+                          </div></>}
+                          
+
                         </div>
                       </div>
                     </div>
