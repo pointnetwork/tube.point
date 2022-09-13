@@ -1,12 +1,14 @@
 # Tube Point
 
-Welcome to the Template Example Zapp. This README is a basic guide to getting started with this application.
+Welcome to the Tube point.
+
+Tube point is the application clone as videos streaming like Youtube.
 
 This is a React JS app. So you will need to install dependencies for it and run a build watcher if you want to develop it further.
 
 ## Main Libraries
 
-This template Zapp uses:
+This point.tube Zapp uses:
 
 * [React JS](https://reactjs.org/) **v 17.x**
 * [React Bootstrap](https://react-bootstrap.github.io/) **v 2.x**
@@ -43,5 +45,5 @@ Note this command is run from the `pointnetwork` cloned repo (see above and assu
 
 ```
 cd pointnetwork
-./point deploy ../template.point --contracts
+./point deploy ../tube.point --contracts
 ``
