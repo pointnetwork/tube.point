@@ -31,7 +31,7 @@ export default function MyVideos() {
         for (var i = 1; i <= _length; i++) {
           TubeManager.getVideo(i).then(async function (_data) {
             if (_data[0] != "0" && _data[1].toString().toLowerCase() === address.toString().toLowerCase()) {
-              _data[2] = await window.point.storage.getFile({ id: _data[2] });
+              // _data[2] = await window.point.storage.getFile({ id: _data[2] });
               setVideos((video) => [...video, _data]);
             }
           });
@@ -67,7 +67,9 @@ export default function MyVideos() {
                   <>
                     <Col xl={3} lg={4} sm={6}>
                       <div className="video-card">
-                        <Player src={URL.createObjectURL(_item[2])}>
+                      <Player 
+                        // src={URL.createObjectURL(_item[2])}
+                         src={`/_storage/${_item[2]}`}>
                           <BigPlayButton position="center" />
                         </Player>
                         <div className="video-dd d-flex justify-content-between align-items-end">

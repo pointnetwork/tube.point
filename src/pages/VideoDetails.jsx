@@ -29,7 +29,7 @@ const VideoDetails = ({ name }) => {
     try {
       TubeManager.getVideo(_id).then(async function (_data) {
         if (_data[0] != "0") {
-          _data[2] = await window.point.storage.getFile({ id: _data[2] });
+          // _data[2] = await window.point.storage.getFile({ id: _data[2] });
           setVideo(_data);
           TubeManager.getLikes(_id).then(async function (_likes) {
             setLikes(_likes);
@@ -109,7 +109,9 @@ const VideoDetails = ({ name }) => {
                 {video ? (
                   <>
                     <div className="video-player">
-                      <Player src={URL.createObjectURL(video[2])}>
+                    <Player 
+                        // src={URL.createObjectURL(video[2])}
+                         src={`/_storage/${video[2]}`}>
                         <BigPlayButton position="center" />
                       </Player>
                     </div>

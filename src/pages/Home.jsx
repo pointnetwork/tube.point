@@ -16,7 +16,7 @@ export default function Home() {
         for (var i = 1; i <= _length; i++) {
           TubeManager.getVideo(i).then(async function (_data) {
             if (_data[0] != "0") {
-              _data[2] = await window.point.storage.getFile({id: _data[2]})
+              // _data[2] = await window.point.storage.getFile({id: _data[2]})
               setVideos((video) => [...video, _data]);
             }
           });
@@ -49,7 +49,9 @@ export default function Home() {
                   <>
                     <Col xl={3} lg={4} sm={6}>
                       <div className="video-card">
-                        <Player src={URL.createObjectURL(_item[2])}>
+                        <Player 
+                        // src={URL.createObjectURL(_item[2])}
+                         src={`/_storage/${_item[2]}`}>
                           <BigPlayButton position="center" />
                         </Player>
                         <Link to={`/video-detail/`+_item[0]} className="video-name mb-0">{_item[3]}</Link>
