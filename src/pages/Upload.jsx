@@ -8,7 +8,7 @@ import "../../node_modules/video-react/dist/video-react.css"; // import css
 import "../assets/styles/Upload.css";
 
 const MAX_FILE_SIZE = 100 * 1024 * 1024;
-const MEDIA_TYPES = "video/webm,video/ogg,video/mp4,video/mpeg";
+const MEDIA_TYPES = "video/webm,video/ogg,video/mp4,video/mpeg,video/mov,video/quicktime";
 
 export default function Upload() {
   const [title, setTitle] = useState("");
@@ -31,6 +31,7 @@ export default function Upload() {
             data.indexOf(":") + 1,
             data.indexOf(";")
           );
+          console.log('contentType',contentType)
           if (!MEDIA_TYPES.split(",").includes(contentType)) {
             toast.warning("The selected file format is unsupported, please select another file", { position: "bottom-center" });
             return;

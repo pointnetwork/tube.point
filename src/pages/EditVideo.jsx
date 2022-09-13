@@ -9,7 +9,7 @@ import "../assets/styles/Upload.css";
 import { useRoute } from "wouter";
 
 const MAX_FILE_SIZE = 100 * 1024 * 1024;
-const MEDIA_TYPES = "video/webm,video/ogg,video/mp4,video/mpeg";
+const MEDIA_TYPES = "video/webm,video/ogg,video/mp4,video/mpeg,video/mov,video/quicktime";
 
 const EditVideo = () => {
   const [title, setTitle] = useState("");
