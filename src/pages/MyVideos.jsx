@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Player, BigPlayButton } from "video-react";
 import point from "../services/PointSDK";
-import { Container, Row, Col} from "react-bootstrap";
+import { Container, Row, Col, Pagination } from "react-bootstrap";
 import TubeManager from "../services/TubeManager";
 import { toast } from "react-toastify";
 import { Link } from "wouter";
@@ -53,6 +53,16 @@ export default function MyVideos() {
     }
   }, [address]);
 
+  let active = 2;
+  let items = [];
+  for (let number = 1; number <= 5; number++) {
+    items.push(
+      <Pagination.Item key={number} active={number === active}>
+        {number}
+      </Pagination.Item>,
+    );
+  }
+
   return (
     <>
       <div className="home-page-wrap">
@@ -97,6 +107,9 @@ export default function MyVideos() {
                 );
               })}
           </Row>
+      <div className="pagination-wrapper">
+        <Pagination size="sm">{items}</Pagination>
+      </div>
         </Container>
       </div>
     </>
