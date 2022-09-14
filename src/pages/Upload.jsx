@@ -3,6 +3,7 @@ import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import TubeManager from "../services/TubeManager";
 import point from "../services/PointSDK";
 import { toast } from "react-toastify";
+import { Link,useLocation } from "wouter";
 import "react-toastify/dist/ReactToastify.css";
 import "../../node_modules/video-react/dist/video-react.css"; // import css
 import "../assets/styles/Upload.css";
@@ -18,6 +19,7 @@ export default function Upload() {
   const [media, setMedia] = useState();
   const [mediaType, setMediaType] = useState();
   const mediaRef = createRef();
+  const [location, setLocation] = useLocation();
 
   const changeHandler = (event) => {
     try {
@@ -84,6 +86,7 @@ async function saveFile(file) {
       toast.success("Your video is published successfully !", {
         position: "bottom-center",
       });
+      setLocation('/my-videos');
     } catch (error) {
       toast.error(error.message, { position: "bottom-center" });
     } finally {
@@ -159,9 +162,13 @@ async function saveFile(file) {
                     <Button type="submit" variant="success" className="main-btn-1">
                       Publish
                     </Button>
-                    <Button type="submit" variant="dark" className="main-btn-1 ms-2" onClick={goBack}>
-                        Back
-                    </Button>
+                    <Link
+                    href="/my-videos"
+                      variant="dark"
+                      className="btn main-btn-1 ms-2"
+                    >
+                      Back
+                    </Link>
                   </div>
                 </div>
               </Col>

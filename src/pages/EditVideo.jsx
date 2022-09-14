@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../../node_modules/video-react/dist/video-react.css"; // import css
 import "../assets/styles/Upload.css";
-import { useRoute } from "wouter";
+import { useRoute,Link,useLocation } from "wouter";
 
 const MAX_FILE_SIZE = 100 * 1024 * 1024;
 const MEDIA_TYPES = "video/webm,video/ogg,video/mp4,video/mpeg,video/mov,video/quicktime";
@@ -21,6 +21,7 @@ const EditVideo = () => {
   const mediaRef = createRef();
   const [video, setVideo] = useState(null);
   const [match, params] = useRoute("/edit-video/:id");
+  const [location, setLocation] = useLocation();
 
   const getVideo = async (_id) => {
     try {
@@ -40,7 +41,7 @@ const EditVideo = () => {
     } finally {
     }
   };
-console.log("mwdiAA",mediaType)
+  
   useEffect(() => {
     getVideo(params.id);
   }, []);
@@ -127,9 +128,10 @@ console.log("mwdiAA",mediaType)
         description,
         videoId
       );
-      toast.success("Your video is published successfully !", {
+      toast.success("Your video is updated successfully !", {
         position: "bottom-center",
       });
+      setLocation('/my-videos');
     } catch (error) {
       toast.error(error.message, { position: "bottom-center" });
     } finally {
@@ -207,14 +209,13 @@ console.log("mwdiAA",mediaType)
                     >
                       Publish
                     </Button>
-                    <Button
-                      type="submit"
+                    <Link
+                    href="/my-videos"
                       variant="dark"
-                      className="main-btn-1 ms-2"
-                      onClick={goBack}
+                      className="btn main-btn-1 ms-2"
                     >
                       Back
-                    </Button>
+                    </Link>
                   </div>
                 </div>
               </Col>

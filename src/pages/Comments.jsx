@@ -7,16 +7,20 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Comments = () => {
   const [comment, setComment] = useState("");
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState();
   const [match, params] = useRoute("/video-detail/:id");
 
   const commentCreateHandler = async (e) => {
     e.preventDefault();
     try {
-      await TubeManager.comment(comment, parseInt(params.id));
-      toast.success("Comment posted successfully", {
-        position: "bottom-center",
+      TubeManager.comment(comment, parseInt(params.id)).then(function(_res){
+        toast.success("Comment posted successfully", {
+          position: "bottom-center",
+        });
+        loadComments(params.id);
+        setComment("");
       });
+      
     } catch (error) {
       let er = error.message;
       er = er.replace("VM Exception while processing transaction: revert", "");
@@ -27,8 +31,11 @@ const Comments = () => {
   const loadComments = async (id) => {
     try {
       TubeManager.getComments(id).then(async function (_data) {
-        setComments((comments) => [...comments, _data]);
+        // setComments((comments) => [...comments, _data]);
+        setComments(_data);
+        console.log('comments',_data)
       });
+      
     } catch (error) {
       console.log(error);
     } finally {
@@ -43,12 +50,12 @@ const Comments = () => {
     <>
       <div className="comment-container">
         <div className="show-comments">
-          {comments[0] !== undefined &&
-            comments[0].length > 0 &&
-            comments[0].map((_item) => {
+          {comments !== undefined &&
+            comments.length > 0 &&
+            comments.map((_item,_index) => {
               return (
                 <>
-                  <div className="comment">
+                  <div key={_item[0]} className="comment">
                     <p className="address">
                       {_item[0].substring(0, 2) +
                         " ... " +
@@ -70,6 +77,7 @@ const Comments = () => {
               type="text"
               placeholder="Add a comment..."
               className="w-100"
+              value={comment}
               onChange={(e) => setComment(e.target.value)}
             />
           </div>

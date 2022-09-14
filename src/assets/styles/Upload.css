@@ -63,6 +63,6 @@
 .comment-container .show-comments{margin-bottom: 30px;}
 .show-comments .comment:not(:last-child) {margin-bottom: 10px;}
 .show-comments .comment .address {font-weight: 700; margin-bottom: 2px;font-size: 13px;}
-.show-comments .comment .comment-details {font-size: 14px;}
+.show-comments .comment .comment-details {font-size: 14px; word-break: break-word;}
 .video-card .edit-video{cursor: pointer;}
 .header-navbar .navbar-brand img {width: 40px;}

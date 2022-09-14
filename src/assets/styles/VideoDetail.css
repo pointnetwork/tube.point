@@ -1,14 +1,20 @@
 .subscribe-btn {
   color: #fff;
   background: red;
-  padding: 7px 20px;
+  padding: 3px 15px;
   border: none;
   border-radius: 5px;
+  border: 1px solid transparent;
 }
-.subscribe-btn:hover {
-  color: red;
-  background: #fff;
-  padding: 7px 20px;
-  border: 1px solid red;
+.unsubscribe-btn {
+  color: #000;
+  background: #ccc;
+  border: 1px solid #ccc;
   border-radius: 5px;
+  padding: 3px 15px;
+}
+.show-comments {
+  height: 540px;
+  overflow: hidden;
+  overflow-y: auto;
 }

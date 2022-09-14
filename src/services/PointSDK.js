@@ -1,5 +1,5 @@
 
-const POINT_TIMEOUT = 50 * 1000;
+const POINT_TIMEOUT = 60 * 1000;
 const MAX_TIMEOUT = 600 * 1000;
 const DEBUG = false;
 const DISPLAY_ERRORS = false;

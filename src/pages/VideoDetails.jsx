@@ -35,7 +35,6 @@ const VideoDetails = ({ name }) => {
             setLikes(_likes);
           });
           TubeManager.isSubscribed(_data[1]).then(async function (_isSubscribed) {
-            console.log('_isSubscribed',_isSubscribed)
             setIsSubscribed(_isSubscribed);
           });
         }
@@ -52,6 +51,9 @@ const VideoDetails = ({ name }) => {
     try {
       await TubeManager.like(parseInt(params.id));
       toast.success("Video Liked 👍", { position: "bottom-center" });
+      TubeManager.getLikes(parseInt(params.id)).then(async function (_likes) {
+        setLikes(_likes);
+      });
     } catch (error) {
       let er = error.message;
       er = er.replace("VM Exception while processing transaction: revert", "");
@@ -63,6 +65,9 @@ const VideoDetails = ({ name }) => {
     try {
       await TubeManager.dislike(parseInt(params.id));
       toast.success("Video Disliked 👎", { position: "bottom-center" });
+      TubeManager.getLikes(parseInt(params.id)).then(async function (_likes) {
+        setLikes(_likes);
+      });
     } catch (error) {
       let er = error.message;
       er = er.replace("VM Exception while processing transaction: revert", "");
@@ -74,6 +79,9 @@ const VideoDetails = ({ name }) => {
     try {
       await TubeManager.subscribe(video[1]);
       toast.success("Subscribed", { position: "bottom-center" });
+      TubeManager.isSubscribed(video[1]).then(async function (_isSubscribed) {
+        setIsSubscribed(_isSubscribed);
+      });
     } catch (error) {
       let er = error.message;
       er = er.replace("VM Exception while processing transaction: revert", "");
@@ -85,6 +93,9 @@ const VideoDetails = ({ name }) => {
     try {
       await TubeManager.unSubscribe(video[1]);
       toast.success("Unsubscribed", { position: "bottom-center" });
+      TubeManager.isSubscribed(video[1]).then(async function (_isSubscribed) {
+        setIsSubscribed(_isSubscribed);
+      });
     } catch (error) {
       let er = error.message;
       er = er.replace("VM Exception while processing transaction: revert", "");
@@ -146,10 +157,10 @@ const VideoDetails = ({ name }) => {
                             <span>Dislike</span>
                           </div>
                     {isSubscribed && isSubscribed == true ? <><div
-                            className="icon d-flex align-items-center me-3 subscribe-btn"
+                            className="icon d-flex align-items-center me-3 unsubscribe-btn"
                             onClick={unSubscribeHandler}
                           >
-                            <span>Unsubscribe</span>
+                            <span>Subscribed</span>
                           </div></> :  <><div
                             className="icon d-flex align-items-center me-3 subscribe-btn"
                             onClick={subscribeHandler}
