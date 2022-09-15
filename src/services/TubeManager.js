@@ -49,6 +49,9 @@ class TubeManager {
   static getPaginatedVideos = async (length, amount) =>
     point.contractCall("TubePoint", "getPaginatedVideos", [length, amount]);
 
+    static getVideosByUser = async (address) =>
+    point.contractCall("TubePoint", "getVideosByUser", [address]);
+
   // static deletePost = async (postId) => point.contractCall("PointSocial", "deletePost", [postId]);
   // static editPost = async (postId, contentId, imageId) => {
   //     return point.contractCall("PointSocial", "editPost", [

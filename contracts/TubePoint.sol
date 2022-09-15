@@ -151,6 +151,20 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
         return file;
     }
 
+    function getVideosByUser(address _user)
+        public
+        view
+        returns (File[] memory)
+    {
+        uint256 totalVideos = userLinkedFiles[_user].length;
+
+        File[] memory file = new File[](totalVideos);
+        for (uint256 i = 0; i < totalVideos; i++) {
+            file[i] = userLinkedFiles[_user][i];
+        }
+        return file;
+    }
+
     /**
      * @dev like function use to like the specific video from frontend
      * @param id : id of the file
