@@ -52,6 +52,17 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
     function initialize() public initializer onlyProxy {
         __Ownable_init();
         __UUPSUpgradeable_init();
+        _seedVideos(100);
+    }
+
+    function _seedVideos(uint256 seedCount) internal {
+        for (uint256 i = 1; i < seedCount; i++) {
+            uploadVideo(
+                "Earth Video",
+                "Earth Video Description",
+                0xb7f6109db603641c0ea870688b275999e581cdc2fc8890b96acd6f5177650acd
+            );
+        }
     }
 
     function _authorizeUpgrade(address) internal override onlyOwner {}
@@ -120,6 +131,24 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
     // get detail of specific video file to show
     function getVideo(uint256 fileId) public view returns (File memory) {
         return files[fileId];
+    }
+
+    function getPaginatedVideos(uint256 cursor, uint256 howMany)
+        public
+        view
+        returns (File[] memory)
+    {
+        uint256 length = howMany;
+        if (length > fileCount.current()) {
+            length = fileCount.current();
+        }
+
+        File[] memory file = new File[](length);
+        for (uint256 i = 1; i <= length; i++) {
+            file[i - 1] = getVideo(cursor);
+            cursor++;
+        }
+        return file;
     }
 
     /**
@@ -208,7 +237,7 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
         return fileCount.current();
     }
 
-    function isSubscribed(address _subAddress) public view returns (bool){
+    function isSubscribed(address _subAddress) public view returns (bool) {
         Subscribe storage _subscribe = subscribers[_subAddress];
         return _subscribe.userAddress[msg.sender];
     }
