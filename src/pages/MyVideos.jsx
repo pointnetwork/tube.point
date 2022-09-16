@@ -36,6 +36,7 @@ export default function MyVideos() {
               tempVids.push(_res[i]);
             }
           }
+          console.log('tempVids',tempVids)
           setVideos(tempVids);
         });
     } catch (error) {
