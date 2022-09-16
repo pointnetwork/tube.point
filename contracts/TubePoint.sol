@@ -17,6 +17,7 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
         bytes32 fileId;
         string title;
         string desc;
+        string idName;
         uint256 timestamp;
     }
     struct Comment {
@@ -60,7 +61,8 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
             uploadVideo(
                 "Earth Video",
                 "Earth Video Description",
-                0xb7f6109db603641c0ea870688b275999e581cdc2fc8890b96acd6f5177650acd
+                0xb7f6109db603641c0ea870688b275999e581cdc2fc8890b96acd6f5177650acd,
+                "No name"
             );
         }
     }
@@ -75,7 +77,8 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
     function uploadVideo(
         string memory title,
         string memory desc,
-        bytes32 fileId
+        bytes32 fileId,
+        string memory idName
     ) public {
         require(msg.sender != address(0));
 
@@ -88,6 +91,7 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
             fileId,
             title,
             desc,
+            idName,
             block.timestamp
         );
 

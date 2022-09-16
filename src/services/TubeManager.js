@@ -15,11 +15,12 @@ class TubeManager {
   static getComments = async (id) =>
     point.contractCall("TubePoint", "getComments", [id]);
 
-  static uploadVideo = async (title, desc, fileId) =>
+  static uploadVideo = async (title, desc, fileId, identityName) =>
     point.contractCall("TubePoint", "uploadVideo", [
       title ? title : "",
       desc ? desc : "",
       fileId ? fileId : EMPTY,
+      identityName ? identityName : ""
     ]);
   static updateVideo = async (id, title, desc, fileId) =>
     point.contractCall("TubePoint", "updateVideo", [

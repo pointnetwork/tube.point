@@ -12,13 +12,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 
 export default function MyVideos() {
+  const [identityName, setIdentityName] = useState("");
   const [address, setAddress] = useState(undefined);
   const [videos, setVideos] = useState([]);
 
   const getAccount = async () => {
     try {
-      let wallet = await point.getWalletAddress();
-      setAddress(wallet.address);
+      let wallet = await point.getIdentity();
+      setIdentityName(wallet['identity']);
+      setAddress(wallet['address']);
     } catch (error) {
       toast.error(error.message, { position: "bottom-center" });
     } finally {
@@ -27,10 +29,8 @@ export default function MyVideos() {
 
   const getVideos = async () => {
     try {
-      console.log('address',address)
         TubeManager.getVideosByUser(address).then(function (_res) {
           let tempVids = [];
-          console.log('_res',_res)
           for(var i=0;i<_res.length;i++){
             if(_res[i][0] != "0"){
               tempVids.push(_res[i]);
@@ -82,12 +82,14 @@ export default function MyVideos() {
                             {_item[3]}
                           </Link>
                           <p className="video-author mb-0">
-                            {_item[1].substring(0, 2) +
+                            <span>{_item[5]}</span>
+                            <br/>
+                            <span>{_item[1].substring(0, 2) +
                               " ... " +
                               _item[1].substring(
                                 _item[1].length,
                                 _item[1].length - 3
-                              )}
+                              )}</span>
                           </p>
                           </div>
                           <Link to={`/edit-video/`+_item[0]}><FontAwesomeIcon className="edit-video" icon={faPenToSquare} /></Link>

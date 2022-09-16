@@ -22,6 +22,19 @@ const EditVideo = () => {
   const [video, setVideo] = useState(null);
   const [match, params] = useRoute("/edit-video/:id");
   const [location, setLocation] = useLocation();
+  const [identityName, setIdentityName] = useState("");
+  const [address, setAddress] = useState(undefined);
+
+  const getAccount = async () => {
+    try {
+      let wallet = await point.getIdentity();
+      setIdentityName(wallet['identity']);
+      setAddress(wallet['address']);
+    } catch (error) {
+      toast.error(error.message, { position: "bottom-center" });
+    } finally {
+    }
+  };
 
   const getVideo = async (_id) => {
     try {

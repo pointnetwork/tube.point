@@ -16,8 +16,10 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Comments from "./Comments";
 import "../assets/styles/VideoDetail.css";
+import point from "../services/PointSDK";
 
 const VideoDetails = ({ name }) => {
+  const [identityName, setIdentityName] = useState("");
   const [video, setVideo] = useState(null);
   const [likes, setLikes] = useState(0);
   const [isSubscribed, setIsSubscribed] = useState(false);
@@ -31,6 +33,8 @@ const VideoDetails = ({ name }) => {
         if (_data[0] != "0") {
           // _data[2] = await window.point.storage.getFile({ id: _data[2] });
           setVideo(_data);
+          let wallet = await point.ownerToIdentity(_data[1]);
+          setIdentityName(wallet['identity']);
           TubeManager.getLikes(_id).then(async function (_likes) {
             setLikes(_likes);
           });
@@ -174,14 +178,16 @@ const VideoDetails = ({ name }) => {
                     </div>
                     <div className="address-description">
                       <div className="address">
-                        <p className="mb-2">
-                          {video[1].substring(0, 2) +
-                            " ... " +
-                            video[1].substring(
-                              video[1].length,
-                              video[1].length - 3
-                            )}
-                        </p>
+                      <p className="video-author mb-0">
+                            <span>{identityName}</span>
+                            <br/>
+                            <span>{video[1].substring(0, 2) +
+                              " ... " +
+                              video[1].substring(
+                                video[1].length,
+                                video[1].length - 3
+                              )}</span>
+                          </p>
                       </div>
                       <div className="description">
                         <p>{video[4]}</p>

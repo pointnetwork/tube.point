@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import TubeManager from "../services/TubeManager";
 import "../../node_modules/video-react/dist/video-react.css"; // import css
 import "../assets/styles/Home.css";
+import point from "../services/PointSDK";
 
 export default function Home() {
   const [videos, setVideos] = useState([]);
@@ -18,10 +19,10 @@ export default function Home() {
     try {
       TubeManager.getAllVideosLength().then(function (_length) {
         setTotalVideosLength(_length);
-        console.log('_length',_length)
         setTotalPageCounter(_length > numberOfPagination ? Math.ceil(_length/numberOfPagination) : 1);
         setCurrentPage(1);
         TubeManager.getPaginatedVideos(currentPage, numberOfPagination).then(function (_res) {
+          console.log('_res',_res)
           let tempVids = [];
           for(var i=0;i<_res.length;i++){
             if(_res[i][0] != "0"){
@@ -95,6 +96,8 @@ export default function Home() {
                           {_item[3]}
                         </Link>
                         <p className="video-author mb-0">
+                          <span>{_item[5]}</span>
+                          <br/>
                           {_item[1].substring(0, 2) +
                             " ... " +
                             _item[1].substring(
