@@ -136,7 +136,7 @@ const VideoDetails = ({ name }) => {
                         <span className="views">
                           0 views *{" "}
                           <Moment unix format="LL">
-                            {video[5]}
+                            {video[6]}
                           </Moment>
                         </span>
                         <div className="social-icons d-flex">
