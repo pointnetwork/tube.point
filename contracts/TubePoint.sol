@@ -17,7 +17,6 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
         bytes32 fileId;
         string title;
         string desc;
-        string idName;
         uint256 timestamp;
     }
     struct Comment {
@@ -65,8 +64,7 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
     function uploadVideo(
         string memory title,
         string memory desc,
-        bytes32 fileId,
-        string memory idName
+        bytes32 fileId
     ) public {
         require(msg.sender != address(0));
 
@@ -79,7 +77,6 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
             fileId,
             title,
             desc,
-            idName,
             block.timestamp
         );
 
