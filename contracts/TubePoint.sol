@@ -53,18 +53,6 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
     function initialize() public initializer onlyProxy {
         __Ownable_init();
         __UUPSUpgradeable_init();
-        // _seedVideos(100);
-    }
-
-    function _seedVideos(uint256 seedCount) internal {
-        for (uint256 i = 1; i < seedCount; i++) {
-            uploadVideo(
-                "Earth Video",
-                "Earth Video Description",
-                0xb7f6109db603641c0ea870688b275999e581cdc2fc8890b96acd6f5177650acd,
-                "No name"
-            );
-        }
     }
 
     function _authorizeUpgrade(address) internal override onlyOwner {}
