@@ -101,7 +101,7 @@ export default function MyVideos() {
                                   {_item[3]}
                                 </Link>
                                 <p className="video-author mb-0">
-                                  <span>{_item[5]}</span>
+                                  <span>{identityName}</span>
                                   <br />
                                   <span>
                                     {_item[1].substring(0, 2) +
