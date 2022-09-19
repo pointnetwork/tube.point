@@ -30,11 +30,12 @@ export default function Home() {
         );
         setCurrentPage(1);
         TubeManager.getPaginatedVideos(currentPage, numberOfPagination).then(
-          function (_res) {
-            console.log("_res", _res);
+          async function (_res) {
             let tempVids = [];
             for (var i = 0; i < _res.length; i++) {
               if (_res[i][0] != "0") {
+                let wallet = await point.ownerToIdentity(_res[i][1]);
+                _res[i][_res[i].length] = wallet["identity"];
                 tempVids.push(_res[i]);
               }
             }
@@ -68,7 +69,6 @@ export default function Home() {
       setLoader(true);
       setCurrentPage(parseInt(itemClicked));
       let cursor = itemClicked > 1 ? (itemClicked - 1) * numberOfPagination : 1;
-      console.log("cursor", cursor);
       TubeManager.getPaginatedVideos(cursor, numberOfPagination).then(function (
         _res
       ) {
@@ -105,7 +105,6 @@ export default function Home() {
                         <Col xl={3} lg={4} sm={6}>
                           <div className="video-card">
                             <Player
-                              // src={URL.createObjectURL(_item[2])}
                               src={`/_storage/${_item[2]}`}
                             >
                               <BigPlayButton position="center" />
@@ -117,7 +116,7 @@ export default function Home() {
                               {_item[3]}
                             </Link>
                             <p className="video-author mb-0">
-                              <span>{_item[5]}</span>
+                              <span>{_item[6]}</span>
                               <br />
                               {_item[1].substring(0, 2) +
                                 " ... " +

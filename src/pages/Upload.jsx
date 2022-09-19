@@ -95,7 +95,7 @@ async function saveFile(file) {
         return;
       }
       const videoId = await saveFile(media);
-      await TubeManager.uploadVideo(title,description,videoId,identityName);
+      await TubeManager.uploadVideo(title,description,videoId);
       toast.success("Your video is published successfully !", {
         position: "bottom-center",
       });
