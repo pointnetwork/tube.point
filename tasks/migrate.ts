@@ -1,6 +1,6 @@
 import { BigNumber, Contract, constants } from 'ethers';
 import { task } from 'hardhat/config';
-import { File, Comment } from './types';
+import { File} from './types';
 
 async function getLastFileId(contract: Contract) {
   const bloomFilter = contract.filters.FileUploaded();
@@ -11,17 +11,6 @@ async function getLastFileId(contract: Contract) {
   const lastFileId: BigNumber = lastEvent?.args?.id;
   return lastFileId.toNumber();
 }
-
-async function getLastCommentId(contract: Contract) {
-  const bloomFilter = contract.filters.Commented();
-  const events = await contract.queryFilter(bloomFilter, 0, 'latest');
-
-  const lastEvent = events.pop();
-
-  const lastCommentId: BigNumber = lastEvent?.args?.id;
-  return lastCommentId.toNumber();
-}
-
 
 async function getFileData(contract: Contract, Id: number): Promise<File| undefined> {
     let fileData;
