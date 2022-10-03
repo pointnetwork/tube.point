@@ -6,12 +6,13 @@ import { File } from './types';
 
 
 async function getLastFileId(contract: Contract) {
-  const bloomFilter = contract.filters.FileUploaded();
+  const bloomFilter = contract.filters.EmailCreated();
   const events = await contract.queryFilter(bloomFilter, 0, 'latest');
 
   const lastEvent = events.pop();
 
   const lastFileId: BigNumber = lastEvent?.args?.id;
+  console.log(lastFileId)
   return lastFileId.toNumber();
 }
 
@@ -25,7 +26,7 @@ async function getFileData(contract: Contract, Id: number): Promise<File | undef
   
     const { from, fileId, title, desc, timestamp} = fileData;
   
-    if (from == constants.AddressZero) {
+    if (from === constants.AddressZero) {
       return;
     }
   
@@ -40,17 +41,7 @@ async function getFileData(contract: Contract, Id: number): Promise<File | undef
   }
 
 
-/*
-Run using one of the following:
-
-npx hardhat download-emails 0x636a49eD801031aC3d5B3D89bA6f5b7114631EC6 --network ynet 
-npx hardhat download-emails 0x0717C9adB941943AdDd422491Add265b633bbd01 --network xpluto 
-npx hardhat download-emails 0xFbb63f96f7Edb554809eA9209DB96a49215aacdb --network xneptune 
-npx hardhat download-emails 0x64E6F6fBd7a9B84de5fD580d23cEDb2CA4b2b63b --network mainnet 
-
-Will save separate serialized json email objects to 'cache/emails'
-*/
-task('download-files', 'Downloads files and saves as json objects to a local cache folder')
+task('download-tube', 'Downloads files and saves as json objects to a local cache folder')
   .addPositionalParam('contractAddress', 'The Point Tube Contract Address to download Files from')
   .setAction(async (args, hre) => {
     const { ethers } = hre;

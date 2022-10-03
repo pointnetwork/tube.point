@@ -3,15 +3,7 @@ import { task } from 'hardhat/config';
 import { promises as fs } from 'fs';
 import path from 'path';
 
-/*
-Run using one of the following:
-
-npx hardhat upload-emails 0xFbb63f96f7Edb554809eA9209DB96a49215aacdb --network xneptune 
-npx hardhat upload-emails 0x64E6F6fBd7a9B84de5fD580d23cEDb2CA4b2b63b --network mainnet 
-
-Will save separate serialized json email objects to 'cache/emails'
-*/
-task('upload-emails', 'Migrate email data to a new contract')
+task('upload-tube', 'Migrate tube data to a new contract')
   .addPositionalParam('contractAddress', 'New contract address')
   .setAction(async (args, hre) => {
     const { ethers } = hre;

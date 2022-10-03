@@ -38,7 +38,7 @@ async function getFileData(contract: Contract, Id: number): Promise<File| undefi
 
 
 
-  task('email-migrate', 'Migrate data to a new contract version')
+  task('tube-migrate', 'Migrate data to a new contract version')
   .addOptionalParam('oldContractAddress', 'Old contract address')
   .addOptionalParam('newContractAddress', 'New contract address')
   .setAction(async (args, hre) => {
@@ -54,10 +54,6 @@ async function getFileData(contract: Contract, Id: number): Promise<File| undefi
       throw new Error('Invalid new contract address');
     }
 
-    // get last sent email id
-    // get all the migrated email ids
-    // one by one get the remainig emails and upload it to new contract
-
     const contractName = 'TubePoint';
 
     const oldContract = await ethers.getContractAt(contractName, oldContractAddress);
@@ -66,7 +62,6 @@ async function getFileData(contract: Contract, Id: number): Promise<File| undefi
     const lastFileId = await getLastFileId(oldContract);
 
     for (let fileId = 1; fileId <= lastFileId; fileId++) {
-      // email already migrated
 
       console.log('getting email', fileId);
       const fileData = await getFileData(oldContract, fileId);
