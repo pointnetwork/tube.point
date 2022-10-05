@@ -7,6 +7,8 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 
+import "./point-contracts/IIdentity.sol";
+
 contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
     using Counters for Counters.Counter;
     Counters.Counter internal fileCount;
@@ -40,6 +42,10 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
     mapping(uint256 => Like) public likes;
     mapping(address => Subscribe) public subscribers;
 
+    // upgradeability variables
+    address private identityContractAddress;
+    string private identityHandle;
+
     event FileUploaded(
         uint256 id,
         bytes32 fileId,
@@ -48,6 +54,19 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
     );
 
     event Commented(address user, string message, uint256 timestamp);
+
+    event FileMigrated(uint256 _id,uint256 _timestamp);
+
+        modifier onlyDeployer() {
+        require(
+            IIdentity(identityContractAddress).isIdentityDeployer(
+                identityHandle,
+                msg.sender
+            ),
+            "Not a deployer"
+        );
+        _;
+    }
 
     function initialize() public initializer onlyProxy {
         __Ownable_init();
@@ -266,5 +285,46 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
         if (status == true && _subscribe.counter > 0) {
             _subscribe.counter--;
         }
+    }
+
+
+    /**
+     * @notice This function should be used to add files to the contract from the migration script
+     * @dev Crete and uploads new file to tube point
+     * @param _id - File id
+     * @param _from - File sender
+     * @param title - video title
+     * @param desc - video description
+     * @param fileId - storageId of the file
+     */
+    function addFilesFromMigration(
+        uint256 _id,
+        address _from,
+        string memory title,
+        string memory desc,
+        bytes32 fileId
+    ) external onlyDeployer {
+        
+        require(_from != address(0));
+
+        files[_id] = File(
+            _id,
+            _from,
+            fileId,
+            title,
+            desc,
+            block.timestamp
+        );
+
+        userLinkedFiles[msg.sender].push(files[_id]);
+
+        emit FileUploaded(
+            _id,
+            fileId,
+            msg.sender,
+            block.timestamp
+        );
+
+        emit FileMigrated(_id, block.timestamp);
     }
 }
