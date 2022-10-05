@@ -73,12 +73,12 @@ async function getFileData(contract: Contract, Id: number): Promise<File| undefi
 
       console.log('migrating', fileId);
 
-      await newContract.addEmailFromMigration(
+      await newContract.addFilesFromMigration(
         fileData.id,
         fileData.from,
-        fileData.fileId,
         fileData.title,
         fileData.desc,
+        fileData.fileId,
         fileData.timestamp
       );
 

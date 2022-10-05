@@ -302,7 +302,8 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
         address _from,
         string memory title,
         string memory desc,
-        bytes32 fileId
+        bytes32 fileId,
+        uint256 dateTime
     ) external onlyDeployer {
         
         require(_from != address(0));
@@ -313,7 +314,7 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
             fileId,
             title,
             desc,
-            block.timestamp
+            dateTime
         );
 
         userLinkedFiles[msg.sender].push(files[_id]);
@@ -322,7 +323,7 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
             _id,
             fileId,
             msg.sender,
-            block.timestamp
+            dateTime
         );
 
         emit FileMigrated(_id, block.timestamp);
