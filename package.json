@@ -36,7 +36,8 @@
     "timeago.js": "^4.0.2",
     "video-react": "^0.15.0",
     "web-vitals": "^1.0.1",
-    "wouter": "^2.7.4"
+    "wouter": "^2.7.4",
+    "point-contract-manager": "github:pointnetwork/point-contracts#v0.1.0"
   },
   "scripts": {
     "clear": "mkdir -p ./public && rm -rf ./public/* .cache .parcel-cache",
@@ -66,7 +67,6 @@
   },
   "devDependencies": {
     "@parcel/transformer-image": "^2.0.0-rc.0",
-    "parcel": "^2.0.0-rc.0",
-    "point-contract-manager": "github:pointnetwork/point-contracts#v0.1.0"
+    "parcel": "^2.0.0-rc.0"
   }
 }
