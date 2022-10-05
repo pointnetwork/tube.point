@@ -63,11 +63,11 @@ async function getFileData(contract: Contract, Id: number): Promise<File| undefi
 
     for (let fileId = 1; fileId <= lastFileId; fileId++) {
 
-      console.log('getting email', fileId);
+      console.log('getting file', fileId);
       const fileData = await getFileData(oldContract, fileId);
 
       if (!fileData) {
-        console.log('email missing', fileId);
+        console.log('file missing', fileId);
         continue;
       }
 

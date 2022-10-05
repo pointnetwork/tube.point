@@ -6,7 +6,7 @@ import { File } from './types';
 
 
 async function getLastFileId(contract: Contract) {
-  const bloomFilter = contract.filters.EmailCreated();
+  const bloomFilter = contract.filters.FileUploaded();
   const events = await contract.queryFilter(bloomFilter, 0, 'latest');
 
   const lastEvent = events.pop();
