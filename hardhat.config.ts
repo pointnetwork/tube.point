@@ -46,22 +46,16 @@ try {
 
     // const wallet = ethers.Wallet.fromMnemonic(keystore.phrase);
 
+    networks.development = {
+      url: 'http://127.0.0.1:7545',
+      accounts: [privateKey],
+      gasPrice: 1,
+    };
+
     networks.ynet = {
       url: 'http://ynet.point.space:44444',
       accounts: [privateKey],
       gasPrice: 1,
-    };
-
-    networks.xpluto = {
-      url: 'https://xnet-pluto-1.point.space',
-      accounts: [privateKey],
-      gasPrice: 1,
-    };
-
-    networks.xneptune = {
-      url: 'http://xnet-neptune-1.point.space:8545',
-      accounts: [privateKey],
-      gasPrice: 7,
     };
 
     networks.mainnet = {
