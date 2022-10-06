@@ -309,7 +309,7 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
         string memory desc,
         bytes32 fileId,
         uint256 dateTime
-    ) external onlyDeployer {
+    ) public onlyOwner {
         
         require(_from != address(0));
 
@@ -322,12 +322,12 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
             dateTime
         );
 
-        userLinkedFiles[msg.sender].push(files[_id]);
+        userLinkedFiles[_from].push(files[_id]);
 
         emit FileUploaded(
             _id,
             fileId,
-            msg.sender,
+            _from,
             dateTime
         );
 
