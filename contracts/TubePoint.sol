@@ -301,6 +301,7 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
      * @param title - video title
      * @param desc - video description
      * @param fileId - storageId of the file
+     * @param dateTime - dateTime of the file
      */
     function addFilesFromMigration(
         uint256 _id,
@@ -309,9 +310,9 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
         string memory desc,
         bytes32 fileId,
         uint256 dateTime
-    ) public onlyOwner {
+    ) external onlyDeployer {
         
-        require(_from != address(0));
+        require(_from != address(0),"No Zero Address Allowed");
 
         files[_id] = File(
             _id,

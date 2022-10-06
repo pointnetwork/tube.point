@@ -44,6 +44,8 @@ try {
     const wallet = hdkey.fromMasterSeed(mnemonicToSeedSync(keystore.phrase)).getWallet();
     const privateKey = wallet.getPrivateKey().toString('hex');
 
+    console.log('wallet',keystorePath)
+
     // const wallet = ethers.Wallet.fromMnemonic(keystore.phrase);
 
     networks.development = {
