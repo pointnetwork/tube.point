@@ -30,12 +30,12 @@ task('upload-tube', 'Migrate tube data to a new contract')
 
       console.log('uploading ', BigNumber.from(fileData.id).toNumber());
 
-      const tx = await contract.addFileFromMigration(
+      const tx = await contract.addFilesFromMigration(
         fileData.id,
         fileData.from,
-        fileData.fileId,
         fileData.title,
         fileData.desc,
+        fileData.fileId,
         fileData.timestamp
       );
 

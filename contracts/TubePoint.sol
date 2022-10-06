@@ -68,9 +68,14 @@ contract TubePoint is Initializable, UUPSUpgradeable, OwnableUpgradeable {
         _;
     }
 
-    function initialize() public initializer onlyProxy {
+    function initialize(
+        address _identityContractAddress,
+        string calldata _identityHandle
+    ) public initializer onlyProxy {
         __Ownable_init();
         __UUPSUpgradeable_init();
+        identityContractAddress = _identityContractAddress;
+        identityHandle = _identityHandle;
     }
 
     function _authorizeUpgrade(address) internal override onlyOwner {}

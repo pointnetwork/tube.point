@@ -19,7 +19,7 @@ async function getLastFileId(contract: Contract) {
 async function getFileData(contract: Contract, Id: number): Promise<File | undefined> {
     let fileData;
     try {
-      fileData = await contract.getFileById(Id);
+      fileData = await contract.getVideo(Id);
     } catch (err) {
       return;
     }
