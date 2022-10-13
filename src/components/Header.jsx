@@ -1,30 +1,44 @@
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
-import NavDropdown from "react-bootstrap/NavDropdown";
+// import NavDropdown from "react-bootstrap/NavDropdown";
 import { Link } from "wouter";
-import { Button } from "react-bootstrap";
-import Logo from '../assets/images/pointlogowhite.png';
-
-import '../assets/styles/Header.css'
+// import { Button } from "react-bootstrap";
+import logo from '../assets/images/pointlogowhite.png';
+import '../assets/styles/Header.css';
 
 const Header = () => {
   return (
-    <>
-      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" className="header-navbar">
-        <Container>
-                <Navbar.Brand href="/" className="d-flex align-items-center"><img src={Logo} alt="logo" className="img-fluid me-2" />Tube point</Navbar.Brand>
-            <div className="header-btn-group">
-                <Link to="/my-videos" className="main-btn-1">
-                    My Videos
-                </Link>
-                <Link to="/upload" className="main-btn-2">
-                    Uploads
-                </Link>
-            </div>
-        </Container>
-      </Navbar>
-    </>
+    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" className="header-navbar">
+    <Container>
+      <img src={logo} className="imgLogo" alt="Point Tube" />
+      <Link to='/'>
+        <Navbar.Brand href="/">Point Drive</Navbar.Brand>
+      </Link>
+
+      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+
+      <Navbar.Collapse id="responsive-navbar-nav">
+        <Nav className="me-auto">
+          <Link to="/">
+            <Nav.Link href="/">
+              Home
+            </Nav.Link>
+          </Link>
+          <Link to="/my-videos">
+            <Nav.Link href="/my-videos">
+              My Videos
+            </Nav.Link>
+          </Link>
+          <Link to="/upload">
+            <Nav.Link href="/upload">
+              Upload
+            </Nav.Link>
+          </Link>
+        </Nav>
+      </Navbar.Collapse>
+    </Container>
+    </Navbar>
   );
 };
 
