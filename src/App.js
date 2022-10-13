@@ -1,5 +1,6 @@
 import { ProvideAppContext } from "./context/AppContext";
 import { Route } from "wouter";
+import { ToastContainer } from 'react-toastify';
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -9,9 +10,7 @@ import Upload from "./pages/Upload";
 import Preview from "./pages/Prieview";
 import VideoDetails from "./pages/VideoDetails";
 import EditVideo from "./pages/EditVideo";
-
-import { ToastContainer } from 'react-toastify';
-
+import '@fontsource/source-sans-pro';
 
 const Main = () => {
   return (
@@ -51,4 +50,5 @@ const App = () => {
     </ProvideAppContext>
   );
 };
+
 export default App;

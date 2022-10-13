@@ -4,6 +4,7 @@
   "author": "Point Network",
   "description": "Template example zapp - use as a scaffold to create more Zapps!",
   "dependencies": {
+    "@fontsource/source-sans-pro": "^4.5.11",
     "@fortawesome/fontawesome-svg-core": "^6.2.0",
     "@fortawesome/free-brands-svg-icons": "^6.2.0",
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
