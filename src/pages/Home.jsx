@@ -1,7 +1,7 @@
 import React from "react";
 import { Player, BigPlayButton } from "video-react";
 import { Container, Row, Col, Pagination } from "react-bootstrap";
-import { Link } from "wouter";
+import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import TubeManager from "../services/TubeManager";
 import "../../node_modules/video-react/dist/video-react.css"; // import css
@@ -140,7 +140,6 @@ export default function Home() {
             </Pagination>
           </div>
           </> : <></>}
-          
         </Container>
       </div>
     </>

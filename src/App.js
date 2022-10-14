@@ -1,5 +1,5 @@
 import { ProvideAppContext } from "./context/AppContext";
-import { Route } from "wouter";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -17,27 +17,17 @@ const Main = () => {
     <main>
       <ToastContainer />
       <Header />
-      <Route path="/">
-        <Home />
-      </Route>
-      <Route path="/my-videos">
-        <Examples />
-      </Route>
-      <Route path="/upload">
-        <Upload />
-      </Route>
-      <Route path="/contracts">
-        <Contracts />
-      </Route>
-      <Route path="/preview">
-        <Preview />
-      </Route>
-      <Route path="/video-detail/:id">
-        <VideoDetails />
-      </Route>
-      <Route path="/edit-video/:id">
-        <EditVideo />
-      </Route>
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/my-videos" element={<Examples />} />
+        <Route path="/upload" element={<Upload />} />
+        <Route path="/contracts" element={<Contracts />} />
+        <Route path="/preview" element={<Preview />} />
+        <Route path="/video-detail/:id" element={<VideoDetails />} />
+        <Route path="/edit-video/:id" element={<EditVideo />} />
+      </Routes>
+
       <Footer />
     </main>
   );
@@ -45,9 +35,11 @@ const Main = () => {
 
 const App = () => {
   return (
-    <ProvideAppContext>
-      <Main />
-    </ProvideAppContext>
+    <BrowserRouter>
+      <ProvideAppContext>
+        <Main />
+      </ProvideAppContext>
+    </BrowserRouter>
   );
 };
 

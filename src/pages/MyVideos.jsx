@@ -4,7 +4,7 @@ import point from "../services/PointSDK";
 import { Container, Row, Col, Pagination } from "react-bootstrap";
 import TubeManager from "../services/TubeManager";
 import { toast } from "react-toastify";
-import { Link } from "wouter";
+import { Link } from "react-router-dom";
 import "../../node_modules/video-react/dist/video-react.css"; // import css
 import "../assets/styles/Home.css";
 import "react-toastify/dist/ReactToastify.css";

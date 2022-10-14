@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import TubeManager from "../services/TubeManager";
-import { useRoute } from "wouter";
+import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Comments = () => {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState();
-  const [match, params] = useRoute("/video-detail/:id");
+  const { id: paramsId } = useParams();
 
   const commentCreateHandler = async (e) => {
     e.preventDefault();
     try {
-      TubeManager.comment(comment, parseInt(params.id)).then(function(_res){
+      TubeManager.comment(comment, parseInt(paramsId)).then(function(_res){
         toast.success("Comment posted successfully", {
           position: "bottom-center",
         });
-        loadComments(params.id);
+        loadComments(paramsId);
         setComment("");
       });
-      
+
     } catch (error) {
       let er = error.message;
       er = er.replace("VM Exception while processing transaction: revert", "");
@@ -35,7 +35,7 @@ const Comments = () => {
         setComments(_data);
         console.log('comments',_data)
       });
-      
+
     } catch (error) {
       console.log(error);
     } finally {
@@ -43,7 +43,7 @@ const Comments = () => {
   };
 
   useEffect(() => {
-    loadComments(params.id);
+    loadComments(paramsId);
   }, []);
 
   return (

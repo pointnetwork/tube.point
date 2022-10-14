@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { useLocation } from "wouter";
+import { useNavigate } from "react-router-dom";
 
 const defaultContext = {
   walletAddress: undefined,
@@ -14,7 +14,7 @@ export const useAppContext = () => useContext(AppContext)
 export const ProvideAppContext = ({ children }) => {
   const [walletAddress, setWalletAddress] = useState();
   const [walletError, setWallerError] = useState();
-  const [, setLocation] = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
@@ -29,7 +29,7 @@ export const ProvideAppContext = ({ children }) => {
   }, [])
 
   const goHome = useCallback(async () => {
-    setLocation('/');
+    navigate('/');
   }, []);
 
   const context = {

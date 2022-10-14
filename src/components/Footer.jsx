@@ -1,6 +1,6 @@
 import Container from 'react-bootstrap/Container'
 import Navbar from 'react-bootstrap/Navbar'
-import { Link } from "wouter";
+import { Link } from "react-router-dom";
 import logo from '../assets/pointlogowhite.png'
 
 const Footer = () => {

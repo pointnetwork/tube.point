@@ -6,7 +6,8 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../../node_modules/video-react/dist/video-react.css"; // import css
 import "../assets/styles/Upload.css";
-import { useRoute,Link,useLocation } from "wouter";
+import { useNavigate, useParams } from "react-router-dom";
+import { LinkContainer } from "react-router-bootstrap";
 
 const MAX_FILE_SIZE = 100 * 1024 * 1024;
 const MEDIA_TYPES = "video/webm,video/ogg,video/mp4,video/mpeg,video/mov,video/quicktime";
@@ -20,8 +21,8 @@ const EditVideo = () => {
   const [mediaType, setMediaType] = useState();
   const mediaRef = createRef();
   const [video, setVideo] = useState(null);
-  const [match, params] = useRoute("/edit-video/:id");
-  const [location, setLocation] = useLocation();
+  const { id: paramsId } = useParams();
+  const navigate = useNavigate();
   const [identityName, setIdentityName] = useState("");
   const [address, setAddress] = useState(undefined);
 
@@ -45,7 +46,6 @@ const EditVideo = () => {
           setTitle(_data[3]);
           setDescription(_data[4]);
           setMediaType('video');
-          
           setMedia(await blobToBase64(_data[2]))
         }
       });
@@ -54,9 +54,9 @@ const EditVideo = () => {
     } finally {
     }
   };
-  
+
   useEffect(() => {
-    getVideo(params.id);
+    getVideo(paramsId);
   }, []);
 
   const changeHandler = (event) => {
@@ -144,7 +144,7 @@ const EditVideo = () => {
       toast.success("Your video is updated successfully !", {
         position: "bottom-center",
       });
-      setLocation('/my-videos');
+      navigate('/my-videos');
     } catch (error) {
       toast.error(error.message, { position: "bottom-center" });
     } finally {
@@ -220,15 +220,16 @@ const EditVideo = () => {
                       variant="success"
                       className="main-btn-1"
                     >
-                      Publish
+                      Publish Changes
                     </Button>
-                    <Link
-                    href="/my-videos"
-                      variant="dark"
-                      className="btn main-btn-1 ms-2"
-                    >
-                      Back
-                    </Link>
+                    <LinkContainer to="/my-videos">
+                      <Button
+                        variant="dark"
+                        className="btn main-btn-1 ms-2"
+                      >
+                        Back
+                      </Button>
+                    </LinkContainer>
                   </div>
                 </div>
               </Col>

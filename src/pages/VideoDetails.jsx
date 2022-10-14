@@ -8,7 +8,7 @@ import {
   faThumbsDown,
   faThumbsUp,
 } from "@fortawesome/free-solid-svg-icons";
-import { useRoute } from "wouter";
+import { useParams } from "react-router-dom";
 import TubeManager from "../services/TubeManager";
 import Moment from "react-moment";
 import moment from "moment";
@@ -23,8 +23,8 @@ const VideoDetails = ({ name }) => {
   const [video, setVideo] = useState(null);
   const [likes, setLikes] = useState(0);
   const [isSubscribed, setIsSubscribed] = useState(false);
-  
-  const [match, params] = useRoute("/video-detail/:id");
+  const { id: paramsId } = useParams();
+
   const start = moment().add(-4, "m");
 
   const getVideo = async (_id) => {
@@ -49,13 +49,11 @@ const VideoDetails = ({ name }) => {
     }
   };
 
-  
-
   const likeHandler = async () => {
     try {
-      await TubeManager.like(parseInt(params.id));
+      await TubeManager.like(parseInt(paramsId));
       toast.success("Video Liked 👍", { position: "bottom-center" });
-      TubeManager.getLikes(parseInt(params.id)).then(async function (_likes) {
+      TubeManager.getLikes(parseInt(paramsId)).then(async function (_likes) {
         setLikes(_likes);
       });
     } catch (error) {
@@ -67,9 +65,9 @@ const VideoDetails = ({ name }) => {
 
   const unlikeHandler = async () => {
     try {
-      await TubeManager.dislike(parseInt(params.id));
+      await TubeManager.dislike(parseInt(paramsId));
       toast.success("Video Disliked 👎", { position: "bottom-center" });
-      TubeManager.getLikes(parseInt(params.id)).then(async function (_likes) {
+      TubeManager.getLikes(parseInt(paramsId)).then(async function (_likes) {
         setLikes(_likes);
       });
     } catch (error) {
@@ -107,11 +105,9 @@ const VideoDetails = ({ name }) => {
     }
   };
 
-  
-
   useEffect(() => {
-    getVideo(params.id);
-    // loadComments(params.id);
+    getVideo(paramsId);
+    // loadComments(paramsId);
   }, []);
 
   return (
@@ -171,7 +167,6 @@ const VideoDetails = ({ name }) => {
                           >
                             <span>Subscribe</span>
                           </div></>}
-                          
 
                         </div>
                       </div>

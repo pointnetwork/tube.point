@@ -1,9 +1,7 @@
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
-// import NavDropdown from "react-bootstrap/NavDropdown";
-import { Link } from "wouter";
-// import { Button } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
 import logo from '../assets/images/pointlogowhite.png';
 import '../assets/styles/Header.css';
 
@@ -12,29 +10,29 @@ const Header = () => {
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" className="header-navbar">
     <Container>
       <img src={logo} className="imgLogo" alt="Point Tube" />
-      <Link to='/'>
+      <LinkContainer to='/'>
         <Navbar.Brand href="/">Point Drive</Navbar.Brand>
-      </Link>
+      </LinkContainer>
 
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
 
       <Navbar.Collapse id="responsive-navbar-nav">
-        <Nav className="me-auto">
-          <Link to="/">
+        <Nav className="me-auto" activeKey="">
+          <LinkContainer to="/">
             <Nav.Link href="/">
               Home
             </Nav.Link>
-          </Link>
-          <Link to="/my-videos">
+          </LinkContainer>
+          <LinkContainer to="/my-videos">
             <Nav.Link href="/my-videos">
               My Videos
             </Nav.Link>
-          </Link>
-          <Link to="/upload">
+          </LinkContainer>
+          <LinkContainer to="/upload">
             <Nav.Link href="/upload">
               Upload
             </Nav.Link>
-          </Link>
+          </LinkContainer>
         </Nav>
       </Navbar.Collapse>
     </Container>
