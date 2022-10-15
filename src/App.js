@@ -7,7 +7,7 @@ import Home from "./pages/Home";
 import Examples from "./pages/MyVideos";
 import Contracts from "./pages/Contracts";
 import Upload from "./pages/Upload";
-import Preview from "./pages/Prieview";
+import Preview from "./pages/Preview";
 import VideoDetails from "./pages/VideoDetails";
 import EditVideo from "./pages/EditVideo";
 import '@fontsource/source-sans-pro';
