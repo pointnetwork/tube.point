@@ -2,7 +2,6 @@ import { ProvideAppContext } from "./context/AppContext";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import Header from "./components/Header";
-import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Examples from "./pages/MyVideos";
 import Contracts from "./pages/Contracts";
@@ -27,8 +26,6 @@ const Main = () => {
         <Route path="/video-detail/:id" element={<VideoDetails />} />
         <Route path="/edit-video/:id" element={<EditVideo />} />
       </Routes>
-
-      <Footer />
     </main>
   );
 };
