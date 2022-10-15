@@ -181,7 +181,9 @@ const EditVideo = () => {
     <>
       <div className="home-page-wrap upload-page">
         <Container>
-          <h2>Edit Video</h2>
+          <h3 className="section-subtitle">Edit Video</h3>
+          <hr className="section-separator" />
+
           <Form onSubmit={updateVideo}>
             <Row>
               <Col lg={6}>

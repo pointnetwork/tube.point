@@ -143,7 +143,9 @@ async function saveFile(file) {
     <>
       <div className="home-page-wrap upload-page">
         <Container>
-          <h2>Upload</h2>
+          <h3 className="section-subtitle">Upload</h3>
+          <hr className="section-separator" />
+
           <Form onSubmit={uploadVideo}>
             <Row>
               <Col lg={6}>

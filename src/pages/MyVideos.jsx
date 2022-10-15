@@ -66,7 +66,7 @@ export default function MyVideos() {
   return (
     <>
       <div className="home-page-wrap">
-        <Container className="p-3">
+        <Container>
           <h3 className="section-subtitle">My Videos</h3>
           <hr className="section-separator" />
 

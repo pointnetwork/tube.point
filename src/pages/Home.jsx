@@ -8,8 +8,6 @@ import "../assets/styles/Home.css";
 import point from "../services/PointSDK";
 import VideoCard from "../components/VideoCard";
 
-import "../custom.css";
-
 export default function Home() {
   const [videos, setVideos] = useState([]);
   const [totalVideosLength, setTotalVideosLength] = useState(0);
@@ -88,7 +86,7 @@ export default function Home() {
   return (
     <>
       <div className="home-page-wrap">
-        <Container className="p-3">
+        <Container>
           <h3 className="section-subtitle">Explore Videos</h3>
           <hr className="section-separator" />
 
