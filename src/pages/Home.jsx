@@ -99,7 +99,13 @@ export default function Home() {
               </>
             ) : (
               <>
-                {videos.length > 0 && videos.map((_item) => <VideoCard video={_item} key={_item[0]} />)}
+                {videos.length > 0 && videos.map((_item) => (
+                  <VideoCard
+                    video={_item}
+                    identityName={_item[6]}
+                    key={_item[0]}
+                  />
+                ))}
               </>
             )}
           </Row>

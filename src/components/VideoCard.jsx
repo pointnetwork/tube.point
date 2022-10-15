@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import "../assets/styles/VideoCard.css";
 
-export default function VideoCard({ video, enableEdit=false }) {
+export default function VideoCard({ video, identityName, enableEdit=false }) {
   return (
     <Col xl={3} lg={4} sm={6}>
       <div className="video-card">
@@ -30,7 +30,7 @@ export default function VideoCard({ video, enableEdit=false }) {
 
           <div className="video-footer">
             <p>
-              <span className="author">@{video[6]}</span>
+              <span className="author">@{identityName}</span>
               <span className="separator">&bull;</span>
               <Moment unix format="LL">
                 {video[5]}

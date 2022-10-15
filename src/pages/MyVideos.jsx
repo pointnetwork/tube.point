@@ -77,7 +77,14 @@ export default function MyVideos() {
               </>
             ) : (
               <>
-                {videos.length > 0 && videos.map((_item) => <VideoCard video={_item} enableEdit={true} key={_item[0]} />)}
+                {videos.length > 0 && videos.map((_item) => (
+                  <VideoCard
+                    video={_item}
+                    identityName={identityName}
+                    enableEdit={true}
+                    key={_item[0]}
+                  />
+                ))}
               </>
             )}
           </Row>
