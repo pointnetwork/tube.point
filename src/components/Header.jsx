@@ -11,7 +11,7 @@ const Header = () => {
     <Container>
       <img src={logo} className="imgLogo" alt="Point Tube" />
       <LinkContainer to='/'>
-        <Navbar.Brand href="/">Point Drive</Navbar.Brand>
+        <Navbar.Brand href="/">Point Tube</Navbar.Brand>
       </LinkContainer>
 
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />

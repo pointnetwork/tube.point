@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Player, BigPlayButton } from "video-react";
 import point from "../services/PointSDK";
-import { Container, Row, Col, Pagination } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import TubeManager from "../services/TubeManager";
 import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
+import { InfinitySpin } from "react-loader-spinner";
 import "../../node_modules/video-react/dist/video-react.css"; // import css
 import "../assets/styles/Home.css";
 import "react-toastify/dist/ReactToastify.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
-import { InfinitySpin } from "react-loader-spinner";
+import VideoCard from "../components/VideoCard";
 
 export default function MyVideos() {
   const [identityName, setIdentityName] = useState("");
@@ -70,9 +67,9 @@ export default function MyVideos() {
     <>
       <div className="home-page-wrap">
         <Container className="p-3">
-          <Row>
-            <h2>My Videos</h2>
-          </Row>
+          <h3 className="section-subtitle">My Videos</h3>
+          <hr className="section-separator" />
+
           <Row>
             {loader ? (
               <>
@@ -80,51 +77,7 @@ export default function MyVideos() {
               </>
             ) : (
               <>
-                {videos.length > 0 &&
-                  videos.map((_item) => {
-                    return (
-                      <>
-                        <Col xl={3} lg={4} sm={6}>
-                          <div className="video-card">
-                            <Player
-                              // src={URL.createObjectURL(_item[2])}
-                              src={`/_storage/${_item[2]}`}
-                            >
-                              <BigPlayButton position="center" />
-                            </Player>
-                            <div className="video-dd d-flex justify-content-between align-items-end">
-                              <div>
-                                <Link
-                                  to={`/video-detail/` + _item[0]}
-                                  className="video-name mb-0"
-                                >
-                                  {_item[3]}
-                                </Link>
-                                <p className="video-author mb-0">
-                                  <span>{identityName}</span>
-                                  <br />
-                                  <span>
-                                    {_item[1].substring(0, 2) +
-                                      " ... " +
-                                      _item[1].substring(
-                                        _item[1].length,
-                                        _item[1].length - 3
-                                      )}
-                                  </span>
-                                </p>
-                              </div>
-                              <Link to={`/edit-video/` + _item[0]}>
-                                <FontAwesomeIcon
-                                  className="edit-video"
-                                  icon={faPenToSquare}
-                                />
-                              </Link>
-                            </div>
-                          </div>
-                        </Col>
-                      </>
-                    );
-                  })}
+                {videos.length > 0 && videos.map((_item) => <VideoCard video={_item} enableEdit={true} key={_item[0]} />)}
               </>
             )}
           </Row>

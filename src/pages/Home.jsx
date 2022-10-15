@@ -1,13 +1,14 @@
 import React from "react";
-import { Player, BigPlayButton } from "video-react";
 import { Container, Row, Col, Pagination } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { InfinitySpin } from "react-loader-spinner";
 import TubeManager from "../services/TubeManager";
 import "../../node_modules/video-react/dist/video-react.css"; // import css
 import "../assets/styles/Home.css";
 import point from "../services/PointSDK";
-import { InfinitySpin } from "react-loader-spinner";
+import VideoCard from "../components/VideoCard";
+
+import "../custom.css";
 
 export default function Home() {
   const [videos, setVideos] = useState([]);
@@ -88,9 +89,9 @@ export default function Home() {
     <>
       <div className="home-page-wrap">
         <Container className="p-3">
-          <Row>
-            <h2>Home</h2>
-          </Row>
+          <h3 className="section-subtitle">Explore Videos</h3>
+          <hr className="section-separator" />
+
           <Row>
             {loader ? (
               <>
@@ -98,38 +99,7 @@ export default function Home() {
               </>
             ) : (
               <>
-                {videos.length > 0 &&
-                  videos.map((_item) => {
-                    return (
-                      <>
-                        <Col xl={3} lg={4} sm={6}>
-                          <div className="video-card">
-                            <Player
-                              src={`/_storage/${_item[2]}`}
-                            >
-                              <BigPlayButton position="center" />
-                            </Player>
-                            <Link
-                              to={`/video-detail/` + _item[0]}
-                              className="video-name mb-0"
-                            >
-                              {_item[3]}
-                            </Link>
-                            <p className="video-author mb-0">
-                              <span>{_item[6]}</span>
-                              <br />
-                              {_item[1].substring(0, 2) +
-                                " ... " +
-                                _item[1].substring(
-                                  _item[1].length,
-                                  _item[1].length - 3
-                                )}
-                            </p>
-                          </div>
-                        </Col>
-                      </>
-                    );
-                  })}
+                {videos.length > 0 && videos.map((_item) => <VideoCard video={_item} key={_item[0]} />)}
               </>
             )}
           </Row>

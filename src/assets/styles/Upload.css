@@ -48,7 +48,15 @@
   }
 .media-remove-icon{z-index: 9; opacity: .7;}
 .error{color: red; font-weight: 700;}
-.pagination-wrapper .pagination {justify-content: flex-end;}
+
+.pagination-wrapper {
+  margin-top: 40px;
+}
+
+.pagination-wrapper .pagination {
+  justify-content: center;
+}
+
 .pagination-wrapper .active > .page-link, .pagination-wrapper .page-link.active{background-color: rgb(33, 37, 41); border-color: rgb(33, 37, 41); color: #fff !important;}
 .page-link{color: rgb(33, 37, 41) !important;}
 .video-details {padding-top: 70px; padding-bottom: 50px;}
