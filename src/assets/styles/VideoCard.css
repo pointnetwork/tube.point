@@ -67,6 +67,7 @@
   background-color: rgba(124, 124, 124, .05);
   border-radius: 5px;
   color: rgb(124, 124, 124);
+  font-size: 0.95rem;
   font-weight: 400;
   padding: 3px 8px;
 }
