@@ -1,1 +1,17 @@
-/* add your own custom css here */
+html, body {
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+.section-subtitle {
+  font-size: 1.45rem;
+  font-weight: 500;
+  margin-top: 60px;
+  text-align: center;
+}
+
+.section-separator {
+  background-color: rgba(124, 124, 124, .6);
+  border: none;
+  height: 1px;
+  margin: 20px auto 20px auto;
+}

@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import TubeManager from "../services/TubeManager";
-import { useRoute } from "wouter";
+import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Comments = () => {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState();
-  const [match, params] = useRoute("/video-detail/:id");
+  const { id: paramsId } = useParams();
 
   const commentCreateHandler = async (e) => {
     e.preventDefault();
     try {
-      TubeManager.comment(comment, parseInt(params.id)).then(function(_res){
+      TubeManager.comment(comment, parseInt(paramsId)).then(function(_res){
         toast.success("Comment posted successfully", {
           position: "bottom-center",
         });
-        loadComments(params.id);
+        loadComments(paramsId);
         setComment("");
       });
-      
+
     } catch (error) {
       let er = error.message;
       er = er.replace("VM Exception while processing transaction: revert", "");
@@ -35,7 +35,7 @@ const Comments = () => {
         setComments(_data);
         console.log('comments',_data)
       });
-      
+
     } catch (error) {
       console.log(error);
     } finally {
@@ -43,54 +43,45 @@ const Comments = () => {
   };
 
   useEffect(() => {
-    loadComments(params.id);
+    loadComments(paramsId);
   }, []);
 
   return (
     <>
-      <div className="comment-container">
-        <div className="show-comments">
-          {comments !== undefined &&
-            comments.length > 0 &&
-            comments.map((_item,_index) => {
-              return (
-                <>
-                  <div key={_item[0]} className="comment">
-                    <p className="address">
-                      {_item[0].substring(0, 2) +
-                        " ... " +
-                        _item[0].substring(
-                          _item[0].length,
-                          _item[0].length - 3
-                        )}
-                    </p>
-                    <p className="comment-details">{_item[1]}</p>
-                  </div>
-                </>
-              );
-            })}
-        </div>
-
-        <form onSubmit={commentCreateHandler}>
-          <div className="add-a-comment">
-            <input
-              type="text"
-              placeholder="Add a comment..."
-              className="w-100"
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-            />
-          </div>
-          <div className="text-end pt-2">
-            <Button variant="light" className="me-2">
-              Cancel
-            </Button>
-            <Button variant="success" type="submit">
-              Comment
-            </Button>
-          </div>
-        </form>
+      <div className="comments-container">
+        {comments !== undefined && comments.length > 0 && comments.map((_item, _index) => {
+          return (
+            <div className="comment" key={_index}>
+              <p className="author">
+                {_item[0].substring(0, 2) +
+                  " ... " +
+                  _item[0].substring(
+                    _item[0].length,
+                    _item[0].length - 3
+                  )}
+                  {/* TODO. change for identity name */}
+              </p>
+              {/* TODO. add post time (e.g. 20 minutes ago) */}
+              <p>{_item[1]}</p>
+            </div>
+          )
+        })}
       </div>
+
+      <form onSubmit={commentCreateHandler}>
+        <input
+          type="text"
+          placeholder="Add a comment..."
+          className="add-comment"
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+        />
+        <div className="text-end pt-2">
+          <Button className="submit-comment" type="submit">
+            Comment
+          </Button>
+        </div>
+      </form>
     </>
   );
 };

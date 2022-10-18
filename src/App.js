@@ -1,54 +1,43 @@
 import { ProvideAppContext } from "./context/AppContext";
-import { Route } from "wouter";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import Header from "./components/Header";
-import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Examples from "./pages/MyVideos";
 import Contracts from "./pages/Contracts";
 import Upload from "./pages/Upload";
-import Preview from "./pages/Prieview";
+import Preview from "./pages/Preview";
 import VideoDetails from "./pages/VideoDetails";
 import EditVideo from "./pages/EditVideo";
-
-import { ToastContainer } from 'react-toastify';
-
+import '@fontsource/source-sans-pro';
 
 const Main = () => {
   return (
     <main>
       <ToastContainer />
       <Header />
-      <Route path="/">
-        <Home />
-      </Route>
-      <Route path="/my-videos">
-        <Examples />
-      </Route>
-      <Route path="/upload">
-        <Upload />
-      </Route>
-      <Route path="/contracts">
-        <Contracts />
-      </Route>
-      <Route path="/preview">
-        <Preview />
-      </Route>
-      <Route path="/video-detail/:id">
-        <VideoDetails />
-      </Route>
-      <Route path="/edit-video/:id">
-        <EditVideo />
-      </Route>
-      <Footer />
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/my-videos" element={<Examples />} />
+        <Route path="/upload" element={<Upload />} />
+        <Route path="/contracts" element={<Contracts />} />
+        <Route path="/preview" element={<Preview />} />
+        <Route path="/video-detail/:id" element={<VideoDetails />} />
+        <Route path="/edit-video/:id" element={<EditVideo />} />
+      </Routes>
     </main>
   );
 };
 
 const App = () => {
   return (
-    <ProvideAppContext>
-      <Main />
-    </ProvideAppContext>
+    <BrowserRouter>
+      <ProvideAppContext>
+        <Main />
+      </ProvideAppContext>
+    </BrowserRouter>
   );
 };
+
 export default App;

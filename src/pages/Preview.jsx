@@ -1,17 +1,16 @@
 import React from "react";
 import { Player, BigPlayButton } from "video-react";
-import { Link } from "wouter";
+import { Link } from "react-router-dom";
 // import Select from 'react-select'
 import {Container, Row, Col, Form,} from "react-bootstrap";
 import UploadIcon from '../../src/assets/images/cloud-upload.svg';
-// import "node_modules/video-react/dist/video-react.css"; 
+// import "node_modules/video-react/dist/video-react.css";
 import '../../node_modules/video-react/dist/video-react.css'; // import css
 import '../assets/styles/Preview.css'
 
 export default function Preview() {
-        
   return (
-	<>	
+	<>
 		<div className="home-page-wrap preview-page">
 			<Container className="p-3">
 				<h2>Preview</h2>

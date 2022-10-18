@@ -1,20 +1,113 @@
-.subscribe-btn {
-  color: #fff;
-  background: red;
-  padding: 3px 15px;
-  border: none;
-  border-radius: 5px;
-  border: 1px solid transparent;
+.video-details {
+  padding: 50px 0;
 }
-.unsubscribe-btn {
-  color: #000;
-  background: #ccc;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 3px 15px;
+
+.video-content-wrapper {
+  border-radius: 20px;
+  box-shadow: 0px 7px 15px 0 rgba(0, 0, 0, .15);
+  margin: 10px 0;
+  padding: 16px 16px 4px 16px;
+  position: relative;
 }
-.show-comments {
-  height: 540px;
+
+.video-details .video-header h4 {
+  color: rgb(0,0,0);
+  display: block;
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+  margin: 20px 0 10px 0;
+  text-decoration: none;
+}
+
+.video-details .video-header p.information {
+  color: #7c7c7c;
+  display: flex;
+  align-items: center;
+}
+
+.video-details .video-header .author {
+  background-color: rgba(124, 124, 124, .05);
+  border-radius: 5px;
+  color: rgb(124, 124, 124);
+  font-weight: 400;
+  font-size: 0.95rem;
+  padding: 3px 8px;
+}
+
+.video-details .video-header .separator {
+  padding: 0 10px;
+}
+
+.video-details .video-actions {
+  display: flex;
+  align-items: center;
+  border-top: 1px solid #f7f7f7;
+  margin: 0 -16px;
+  padding: 5px 16px;
+}
+
+.video-details .video-actions .action {
+  padding: 5px;
+  margin-right: 25px;
+  cursor: pointer;
+  color: #666a6d;
+  transition: .2s color ease-in-out;
+}
+
+.video-details .video-actions .action:hover {
+  color: #7142ff;
+}
+
+.video-details .video-actions .action svg {
+  margin-right: 8px;
+}
+
+.video-details .comments-wrapper {
+  border-radius: 20px;
+  box-shadow: 0px 7px 15px 0 rgba(0, 0, 0, .15);
+  margin: 10px 0;
+  padding: 16px;
+  position: relative;
+}
+
+.video-details .comments-container {
+  height: 550px;
   overflow: hidden;
   overflow-y: auto;
+}
+
+.video-details .comment {
+  border-bottom: 1px solid #f7f7f7;
+  margin: 10px 0;
+}
+
+.video-details .comment .author {
+  margin-bottom: 0;
+  font-weight: 600;
+}
+
+.video-details .add-comment {
+  background-color: #f2f2f2;
+  border-radius: 8px;
+  border: none;
+  line-height: 38px;
+  padding: 0 15px;
+  width: 100%;
+  /* margin-bottom: 5px; */
+}
+
+.video-details .submit-comment {
+  background-color: #7142ff;
+  border: none;
+}
+
+.video-details .submit-comment:hover {
+  background-color: #6633FF!important;
+}
+
+@media (max-width: 767px) {
+  .video-details .video-actions {
+    flex-direction: column;
+  }
 }

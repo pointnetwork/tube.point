@@ -1,0 +1,102 @@
+.video-card {
+  border-radius: 20px;
+  box-shadow: 0px 7px 15px 0 rgba(0, 0, 0, .15);
+  margin: 10px 0;
+  padding: 16px;
+  position: relative;
+  top: 0;
+  transition: .2s top ease-in-out;
+  width: 100%;
+}
+
+.video-card:hover {
+  top: -2px;
+}
+
+.video-card::before {
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  background: transparent;
+  border-radius: 20px;
+  content: "";
+  inset: 0;
+  mask-composite: exclude;
+  padding: 2px;
+  position: absolute;
+  z-index: -1;
+}
+
+.video-card:hover::before {
+  background: linear-gradient(90deg, #9245ff, #228dff, #5fecff);
+}
+
+.video-player {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.video-react .video-react-button {
+  border: none;
+  border-radius: 8px;
+}
+
+.video-information .title {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  color: rgb(0,0,0);
+  display: -webkit-box;
+  display: block;
+  font-size: 1.125rem;
+  font-weight: 600;
+  height: 48px;
+  line-height: 1.5rem;
+  margin: 15px 0;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.video-information .title:hover {
+  color: rgba(0,0,0,.8);
+}
+
+.video-information p {
+  color: #7c7c7c;
+  margin-bottom: 0;
+}
+
+.video-information .author {
+  background-color: rgba(124, 124, 124, .05);
+  border-radius: 5px;
+  color: rgb(124, 124, 124);
+  font-size: 0.95rem;
+  font-weight: 400;
+  padding: 3px 8px;
+}
+
+.video-information .separator {
+  padding: 0 10px;
+}
+
+.video-footer {
+  color: rgb(0,0,0);
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.video-footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.video-footer a {
+  color: #7c7c7c;
+  padding-right: 5px;
+}
+
+.video-footer a:hover {
+  color: rgba(124, 124, 124, .8);
+}
+
+.video-footer svg {
+  font-size: 18px;
+}

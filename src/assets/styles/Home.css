@@ -1,24 +1,29 @@
-.home-page-wrap {
+/* .home-page-wrap {
   padding: 50px 10px;
-}
-.home-page-wrap .video-card {
+} */
+
+/* .home-page-wrap .video-card {
   margin-bottom: 20px;
   border-radius: 5px;
   overflow: hidden;
   background-color: #f9f9f9;
   padding: 12px;
 }
+
 .home-page-wrap .video-card .video-react {
   margin-bottom: 10px;
-}
+} */
+
 .video-author {
   color: #606060;
   font-size: 11px;
 }
+
 .video-author:hover {
   color: #000;
   cursor: pointer;
 }
+
 .home-page-wrap h2 {
   font-size: 45px;
   color: #000;
@@ -26,6 +31,7 @@
   text-align: center;
   font-weight: 700;
 }
+
 .video-name {
   color: #000;
   text-decoration: none;
